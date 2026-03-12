@@ -172,13 +172,13 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
     <div class="panel">
       <div class="panel-header"><span class="panel-title">品牌销量 TOP10</span></div>
       <div class="table-wrap"><table id="tblOverviewBrand"><thead><tr>
-        <th>排名</th><th>品牌</th><th>类型</th><th>当月销量</th><th>同比</th>
+        <th>排名</th><th>品牌</th><th>类型</th><th>1月销量</th><th>同比</th>
       </tr></thead><tbody></tbody></table></div>
     </div>
     <div class="panel">
       <div class="panel-header"><span class="panel-title">车型销量 TOP10</span></div>
       <div class="table-wrap"><table id="tblOverviewModel"><thead><tr>
-        <th>排名</th><th>车型</th><th>类别</th><th>当月销量</th><th>同比</th>
+        <th>排名</th><th>车型</th><th>类别</th><th>1月销量</th><th>同比</th>
       </tr></thead><tbody></tbody></table></div>
     </div>
   </div>
@@ -197,8 +197,8 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
     </div>
     <div class="table-wrap"><table id="tblBrand"><thead><tr>
       <th data-sort="rank">排名</th><th>类型</th><th>品牌</th>
-      <th data-sort="sales">当月销量</th><th data-sort="ytd">本年累计</th>
-      <th data-sort="lastMonth">上月销量</th><th data-sort="mom">环比</th>
+      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
+      <th data-sort="lastMonth">12月销量</th><th data-sort="mom">环比</th>
       <th data-sort="lastYear">去年同期</th><th data-sort="yoy">同比</th>
     </tr></thead><tbody></tbody></table></div>
   </div>
@@ -212,8 +212,8 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
     </div>
     <div class="table-wrap"><table id="tblMaker"><thead><tr>
       <th data-sort="rank">排名</th><th>车企</th>
-      <th data-sort="sales">当月销量</th><th data-sort="ytd">本年累计</th>
-      <th data-sort="lastMonth">上月销量</th><th data-sort="mom">环比</th>
+      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
+      <th data-sort="lastMonth">12月销量</th><th data-sort="mom">环比</th>
       <th data-sort="lastYear">去年同期</th><th data-sort="yoy">同比</th>
     </tr></thead><tbody></tbody></table></div>
   </div>
@@ -227,7 +227,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
     </div>
     <div class="table-wrap"><table id="tblSedan"><thead><tr>
       <th data-sort="rank">排名</th><th>车企</th><th>品牌</th><th>车型</th>
-      <th data-sort="sales">当月销量</th><th data-sort="ytd">本年累计</th>
+      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
       <th data-sort="mom">环比</th><th data-sort="yoy">同比</th>
       <th>指导价(万)</th><th>价格区间</th><th>级别</th><th>动力类型</th>
     </tr></thead><tbody></tbody></table></div>
@@ -242,7 +242,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
     </div>
     <div class="table-wrap"><table id="tblSuv"><thead><tr>
       <th data-sort="rank">排名</th><th>车企</th><th>品牌</th><th>车型</th>
-      <th data-sort="sales">当月销量</th><th data-sort="ytd">本年累计</th>
+      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
       <th data-sort="mom">环比</th><th data-sort="yoy">同比</th>
       <th>指导价(万)</th><th>价格区间</th><th>级别</th><th>动力类型</th>
     </tr></thead><tbody></tbody></table></div>
@@ -257,7 +257,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
     </div>
     <div class="table-wrap"><table id="tblMpv"><thead><tr>
       <th data-sort="rank">排名</th><th>车企</th><th>品牌</th><th>车型</th>
-      <th data-sort="sales">当月销量</th><th data-sort="ytd">本年累计</th>
+      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
       <th data-sort="mom">环比</th><th data-sort="yoy">同比</th>
       <th>指导价(万)</th><th>价格区间</th><th>级别</th><th>动力类型</th>
     </tr></thead><tbody></tbody></table></div>
@@ -271,6 +271,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
     <select id="fltCat" onchange="renderAllData()">
       <option value="">全部</option><option value="车企">车企</option>
       <option value="轿车">轿车</option><option value="SUV">SUV</option><option value="MPV">MPV</option>
+      <option value="车企明细">车企明细</option>
     </select>
     <label>系别:</label>
     <select id="fltNation" onchange="renderAllData()">
@@ -297,8 +298,8 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
     </div>
     <div class="table-wrap"><table id="tblAll"><thead><tr>
       <th data-sort="rank">排名</th><th>类别</th><th>系别</th><th>车企</th><th>品牌</th><th>车型</th>
-      <th data-sort="sales">当月销量</th><th data-sort="ytd">本年累计</th>
-      <th data-sort="lastMonth">上月销量</th><th data-sort="mom">环比</th>
+      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
+      <th data-sort="lastMonth">12月销量</th><th data-sort="mom">环比</th>
       <th data-sort="lastYear">去年同期</th><th data-sort="yoy">同比</th>
       <th>动力类型</th><th>指导价(万)</th><th>价格区间</th><th>级别</th>
       <th>尺寸(mm)</th><th>轴距(mm)</th>
@@ -587,6 +588,162 @@ var mpvData = [
   {rank:11,maker:"上汽通用五菱",brand:"五菱",model:"五菱征程",sales:69,ytd:69,lastMonth:84,mom:"-17.86%",lastYear:6659,yoy:"-98.96%"}
 ];
 
+var cqxlExtra = [
+  // 赛力斯
+  {maker:"赛力斯",brand:"问界",model:"问界M8 REEV",sales:5797,ytd:5797,lastMonth:7935,mom:"-26.94%",lastYear:0,yoy:"--"},
+  {maker:"赛力斯",brand:"问界",model:"问界M9 REEV",sales:5623,ytd:5623,lastMonth:7952,mom:"-29.29%",lastYear:9179,yoy:"-38.74%"},
+  {maker:"赛力斯",brand:"问界",model:"问界M8 EV",sales:2264,ytd:2264,lastMonth:6355,mom:"-64.37%",lastYear:0,yoy:"--"},
+  {maker:"赛力斯",brand:"问界",model:"问界M5",sales:667,ytd:667,lastMonth:1099,mom:"-39.31%",lastYear:701,yoy:"-4.85%"},
+  {maker:"赛力斯",brand:"问界",model:"问界M9 BEV",sales:655,ytd:655,lastMonth:1237,mom:"-47.05%",lastYear:804,yoy:"-18.53%"},
+  // 小米
+  {maker:"小米汽车",brand:"小米",model:"小米SU7",sales:1133,ytd:1133,lastMonth:11123,mom:"-89.81%",lastYear:22897,yoy:"-95.05%"},
+  // 一汽红旗
+  {maker:"一汽红旗",brand:"红旗",model:"红旗HS5",sales:4983,ytd:4983,lastMonth:8300,mom:"-39.96%",lastYear:6200,yoy:"-19.63%"},
+  {maker:"一汽红旗",brand:"红旗",model:"HS6 PHEV",sales:4252,ytd:4252,lastMonth:5100,mom:"-16.63%",lastYear:0,yoy:"--"},
+  {maker:"一汽红旗",brand:"红旗",model:"E-QM5",sales:2206,ytd:2206,lastMonth:3500,mom:"-36.97%",lastYear:4200,yoy:"-47.48%"},
+  {maker:"一汽红旗",brand:"红旗",model:"红旗H6",sales:1650,ytd:1650,lastMonth:2100,mom:"-21.43%",lastYear:1800,yoy:"-8.33%"},
+  {maker:"一汽红旗",brand:"红旗",model:"红旗HS3 PHEV",sales:1023,ytd:1023,lastMonth:1500,mom:"-31.80%",lastYear:0,yoy:"--"},
+  {maker:"一汽红旗",brand:"红旗",model:"红旗H9",sales:692,ytd:692,lastMonth:1100,mom:"-37.09%",lastYear:900,yoy:"-23.11%"},
+  // 零跑
+  {maker:"零跑汽车",brand:"零跑",model:"零跑B10",sales:5174,ytd:5174,lastMonth:7847,mom:"-34.06%",lastYear:0,yoy:"--"},
+  {maker:"零跑汽车",brand:"零跑",model:"零跑C10 EV",sales:4689,ytd:4689,lastMonth:9028,mom:"-48.06%",lastYear:5100,yoy:"-8.06%"},
+  {maker:"零跑汽车",brand:"零跑",model:"零跑C10 REEV",sales:2481,ytd:2481,lastMonth:3706,mom:"-33.05%",lastYear:2452,yoy:"1.18%"},
+  {maker:"零跑汽车",brand:"零跑",model:"零跑C11",sales:2392,ytd:2392,lastMonth:3757,mom:"-36.33%",lastYear:4249,yoy:"-43.70%"},
+  {maker:"零跑汽车",brand:"零跑",model:"零跑B01",sales:2099,ytd:2099,lastMonth:7815,mom:"-73.14%",lastYear:0,yoy:"--"},
+  {maker:"零跑汽车",brand:"零跑",model:"零跑Lafa 5",sales:1807,ytd:1807,lastMonth:9646,mom:"-81.27%",lastYear:0,yoy:"--"},
+  {maker:"零跑汽车",brand:"零跑",model:"零跑C16 REEV",sales:1581,ytd:1581,lastMonth:4353,mom:"-63.68%",lastYear:3028,yoy:"-47.79%"},
+  {maker:"零跑汽车",brand:"零跑",model:"零跑C11 REEV",sales:854,ytd:854,lastMonth:1891,mom:"-54.84%",lastYear:1787,yoy:"-52.21%"},
+  {maker:"零跑汽车",brand:"零跑",model:"零跑C16 EV",sales:834,ytd:834,lastMonth:1994,mom:"-58.17%",lastYear:2274,yoy:"-63.32%"},
+  // 东风乘用车
+  {maker:"东风乘用车",brand:"东风风神",model:"东风风神L7",sales:4973,ytd:4973,lastMonth:2609,mom:"90.61%",lastYear:3456,yoy:"43.89%"},
+  {maker:"东风乘用车",brand:"岚图",model:"岚图FREE REEV",sales:3565,ytd:3565,lastMonth:2705,mom:"31.79%",lastYear:1160,yoy:"207.33%"},
+  {maker:"东风乘用车",brand:"岚图",model:"岚图梦想家 PHEV",sales:3209,ytd:3209,lastMonth:6583,mom:"-51.25%",lastYear:5796,yoy:"-44.63%"},
+  {maker:"东风乘用车",brand:"东风风神",model:"风神皓瀚 HEV",sales:2698,ytd:2698,lastMonth:19,mom:"14100%",lastYear:1094,yoy:"146.62%"},
+  {maker:"东风乘用车",brand:"东风风神",model:"风神L8",sales:2241,ytd:2241,lastMonth:1876,mom:"19.46%",lastYear:0,yoy:"--"},
+  {maker:"东风乘用车",brand:"岚图",model:"岚图泰山 PHEV",sales:1629,ytd:1629,lastMonth:3154,mom:"-48.35%",lastYear:0,yoy:"--"},
+  {maker:"东风乘用车",brand:"岚图",model:"岚图知音",sales:1626,ytd:1626,lastMonth:2197,mom:"-25.99%",lastYear:656,yoy:"147.87%"},
+  {maker:"东风乘用车",brand:"东风风神",model:"皓极",sales:939,ytd:939,lastMonth:152,mom:"517.76%",lastYear:438,yoy:"114.38%"},
+  {maker:"东风乘用车",brand:"eπ",model:"eπ007 BEV",sales:877,ytd:877,lastMonth:1328,mom:"-33.96%",lastYear:285,yoy:"207.72%"},
+  {maker:"东风乘用车",brand:"eπ",model:"eπ008 REEV",sales:819,ytd:819,lastMonth:1063,mom:"-22.95%",lastYear:436,yoy:"87.84%"},
+  {maker:"东风乘用车",brand:"eπ",model:"eπ008 BEV",sales:579,ytd:579,lastMonth:667,mom:"-13.19%",lastYear:290,yoy:"99.66%"},
+  // 长城汽车
+  {maker:"长城汽车",brand:"WEY",model:"WEY 高山 PHEV",sales:6757,ytd:6757,lastMonth:10621,mom:"-36.38%",lastYear:428,yoy:"1478.74%"},
+  {maker:"长城汽车",brand:"哈弗",model:"哈弗H9",sales:3585,ytd:3585,lastMonth:4484,mom:"-20.05%",lastYear:2878,yoy:"24.57%"},
+  {maker:"长城汽车",brand:"哈弗",model:"哈弗猛龙 PHEV",sales:2192,ytd:2192,lastMonth:2043,mom:"7.29%",lastYear:5043,yoy:"-56.53%"},
+  {maker:"长城汽车",brand:"坦克",model:"坦克500 PHEV",sales:2080,ytd:2080,lastMonth:4386,mom:"-52.58%",lastYear:4959,yoy:"-58.06%"},
+  {maker:"长城汽车",brand:"哈弗",model:"哈弗猛龙",sales:1840,ytd:1840,lastMonth:3002,mom:"-38.71%",lastYear:0,yoy:"--"},
+  {maker:"长城汽车",brand:"哈弗",model:"哈弗M6",sales:1774,ytd:1774,lastMonth:4800,mom:"-63.04%",lastYear:2986,yoy:"-40.59%"},
+  {maker:"长城汽车",brand:"坦克",model:"坦克400 PHEV",sales:1770,ytd:1770,lastMonth:5278,mom:"-66.46%",lastYear:2446,yoy:"-27.64%"},
+  {maker:"长城汽车",brand:"哈弗",model:"哈弗F7",sales:1676,ytd:1676,lastMonth:3116,mom:"-46.21%",lastYear:1534,yoy:"9.26%"},
+  {maker:"长城汽车",brand:"哈弗",model:"哈弗赤兔",sales:1658,ytd:1658,lastMonth:1600,mom:"3.63%",lastYear:1060,yoy:"56.42%"},
+  {maker:"长城汽车",brand:"欧拉",model:"欧拉5",sales:1220,ytd:1220,lastMonth:3815,mom:"-68.02%",lastYear:0,yoy:"--"},
+  {maker:"长城汽车",brand:"坦克",model:"坦克300 PHEV",sales:1150,ytd:1150,lastMonth:2325,mom:"-50.54%",lastYear:0,yoy:"--"},
+  {maker:"长城汽车",brand:"坦克",model:"坦克500",sales:1094,ytd:1094,lastMonth:1686,mom:"-35.11%",lastYear:1370,yoy:"-20.15%"},
+  {maker:"长城汽车",brand:"哈弗",model:"哈弗H5",sales:1098,ytd:1098,lastMonth:1113,mom:"-1.35%",lastYear:642,yoy:"71.03%"},
+  {maker:"长城汽车",brand:"WEY",model:"蓝山",sales:1022,ytd:1022,lastMonth:2106,mom:"-51.47%",lastYear:4312,yoy:"-76.30%"},
+  {maker:"长城汽车",brand:"欧拉",model:"欧拉好猫",sales:833,ytd:833,lastMonth:4231,mom:"-80.31%",lastYear:2091,yoy:"-60.16%"},
+  {maker:"长城汽车",brand:"坦克",model:"坦克400",sales:752,ytd:752,lastMonth:827,mom:"-9.07%",lastYear:0,yoy:"--"},
+  {maker:"长城汽车",brand:"哈弗",model:"哈弗酷狗",sales:542,ytd:542,lastMonth:1980,mom:"-72.63%",lastYear:716,yoy:"-24.30%"},
+  {maker:"长城汽车",brand:"哈弗",model:"哈弗枭龙MAX",sales:513,ytd:513,lastMonth:923,mom:"-44.42%",lastYear:21,yoy:"2342.86%"},
+  // 长安汽车
+  {maker:"长安汽车",brand:"长安",model:"长安CS55/CS55 plus",sales:5694,ytd:5694,lastMonth:3234,mom:"76.07%",lastYear:17510,yoy:"-67.49%"},
+  {maker:"长安汽车",brand:"深蓝",model:"深蓝S05 EV",sales:5506,ytd:5506,lastMonth:7678,mom:"-28.29%",lastYear:8863,yoy:"-37.88%"},
+  {maker:"长安汽车",brand:"启源",model:"启源Q05",sales:4145,ytd:4145,lastMonth:12379,mom:"-66.52%",lastYear:3024,yoy:"37.07%"},
+  {maker:"长安汽车",brand:"启源",model:"启源A06",sales:4076,ytd:4076,lastMonth:13685,mom:"-70.22%",lastYear:0,yoy:"--"},
+  {maker:"长安汽车",brand:"深蓝",model:"深蓝L06 BEV",sales:1739,ytd:1739,lastMonth:9451,mom:"-81.60%",lastYear:0,yoy:"--"},
+  {maker:"长安汽车",brand:"深蓝",model:"深蓝S7 BEV",sales:1691,ytd:1691,lastMonth:6669,mom:"-74.64%",lastYear:2153,yoy:"-21.46%"},
+  {maker:"长安汽车",brand:"深蓝",model:"深蓝S09 REEV",sales:1665,ytd:1665,lastMonth:505,mom:"229.70%",lastYear:0,yoy:"--"},
+  {maker:"长安汽车",brand:"长安",model:"长安UNI-V",sales:1624,ytd:1624,lastMonth:1370,mom:"18.54%",lastYear:6296,yoy:"-74.19%"},
+  {maker:"长安汽车",brand:"长安",model:"长安CS75 PRO",sales:1494,ytd:1494,lastMonth:2815,mom:"-46.93%",lastYear:0,yoy:"--"},
+  {maker:"长安汽车",brand:"长安",model:"引力T",sales:1347,ytd:1347,lastMonth:540,mom:"149.44%",lastYear:1934,yoy:"-30.35%"},
+  {maker:"长安汽车",brand:"深蓝",model:"深蓝S05 REEV",sales:1205,ytd:1205,lastMonth:680,mom:"77.21%",lastYear:802,yoy:"50.25%"},
+  {maker:"长安汽车",brand:"阿维塔",model:"阿维塔07",sales:1125,ytd:1125,lastMonth:6570,mom:"-82.88%",lastYear:3507,yoy:"-67.92%"},
+  {maker:"长安汽车",brand:"深蓝",model:"深蓝S7 REEV",sales:1027,ytd:1027,lastMonth:1587,mom:"-35.29%",lastYear:8852,yoy:"-88.40%"},
+  {maker:"长安汽车",brand:"深蓝",model:"深蓝 G318",sales:1025,ytd:1025,lastMonth:252,mom:"306.75%",lastYear:1485,yoy:"-31.02%"},
+  {maker:"长安汽车",brand:"长安",model:"悦翔V3",sales:974,ytd:974,lastMonth:0,mom:"--",lastYear:3101,yoy:"-68.60%"},
+  {maker:"长安汽车",brand:"长安",model:"长安UNI-Z",sales:900,ytd:900,lastMonth:5085,mom:"-82.30%",lastYear:8312,yoy:"-89.16%"},
+  {maker:"长安汽车",brand:"长安",model:"长安CS35",sales:877,ytd:877,lastMonth:113,mom:"676.11%",lastYear:9596,yoy:"-90.86%"},
+  {maker:"长安汽车",brand:"逸达",model:"逸达",sales:675,ytd:675,lastMonth:2,mom:"33650%",lastYear:1394,yoy:"-51.61%"},
+  {maker:"长安汽车",brand:"启源",model:"启源A07 EV",sales:646,ytd:646,lastMonth:4346,mom:"-85.14%",lastYear:4036,yoy:"-83.98%"},
+  {maker:"长安汽车",brand:"长安",model:"长安CS15",sales:569,ytd:569,lastMonth:655,mom:"-13.13%",lastYear:2363,yoy:"-75.94%"},
+  {maker:"长安汽车",brand:"阿维塔",model:"阿维塔12",sales:522,ytd:522,lastMonth:1662,mom:"-68.59%",lastYear:1204,yoy:"-56.64%"},
+  // 上汽大众
+  {maker:"上汽大众",brand:"大众",model:"朗逸Pro",sales:3280,ytd:3280,lastMonth:8569,mom:"-61.72%",lastYear:0,yoy:"--"},
+  {maker:"上汽大众",brand:"大众",model:"凌渡",sales:1987,ytd:1987,lastMonth:3192,mom:"-37.75%",lastYear:1003,yoy:"98.11%"},
+  {maker:"上汽大众",brand:"奥迪",model:"奥迪A5L Sportback",sales:1706,ytd:1706,lastMonth:2312,mom:"-26.21%",lastYear:0,yoy:"--"},
+  {maker:"上汽大众",brand:"大众",model:"途昂",sales:1571,ytd:1571,lastMonth:4408,mom:"-64.36%",lastYear:923,yoy:"70.21%"},
+  {maker:"上汽大众",brand:"奥迪",model:"奥迪A7L",sales:823,ytd:823,lastMonth:702,mom:"17.24%",lastYear:1556,yoy:"-47.11%"},
+  {maker:"上汽大众",brand:"奥迪",model:"奥迪Q6",sales:532,ytd:532,lastMonth:1039,mom:"-48.80%",lastYear:320,yoy:"66.25%"},
+  // 广汽丰田
+  {maker:"广汽丰田",brand:"丰田",model:"赛那SIENNA",sales:6198,ytd:6198,lastMonth:8722,mom:"-28.94%",lastYear:8992,yoy:"-31.07%"},
+  {maker:"广汽丰田",brand:"丰田",model:"威兰达FHEV",sales:6128,ytd:6128,lastMonth:786,mom:"679.64%",lastYear:832,yoy:"636.54%"},
+  {maker:"广汽丰田",brand:"丰田",model:"威兰达",sales:3388,ytd:3388,lastMonth:295,mom:"1048.47%",lastYear:9707,yoy:"-65.10%"},
+  {maker:"广汽丰田",brand:"丰田",model:"凯美瑞",sales:2574,ytd:2574,lastMonth:3873,mom:"-33.54%",lastYear:4110,yoy:"-37.37%"},
+  {maker:"广汽丰田",brand:"丰田",model:"锋兰达双擎",sales:2389,ytd:2389,lastMonth:2577,mom:"-7.30%",lastYear:3122,yoy:"-23.48%"},
+  {maker:"广汽丰田",brand:"铂智",model:"铂智3X",sales:2236,ytd:2236,lastMonth:13990,mom:"-84.02%",lastYear:0,yoy:"--"},
+  {maker:"广汽丰田",brand:"丰田",model:"汉兰达",sales:1113,ytd:1113,lastMonth:898,mom:"23.94%",lastYear:1044,yoy:"6.61%"},
+  // 上汽通用五菱
+  {maker:"上汽通用五菱",brand:"五菱（银标）",model:"星光560",sales:6025,ytd:6025,lastMonth:2265,mom:"166%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用五菱",brand:"五菱（银标）",model:"星光730",sales:5098,ytd:5098,lastMonth:5108,mom:"-0.20%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用五菱",brand:"五菱（银标）",model:"五菱星驰",sales:4916,ytd:4916,lastMonth:2434,mom:"101.97%",lastYear:1378,yoy:"256.75%"},
+  {maker:"上汽通用五菱",brand:"宝骏",model:"宝骏530",sales:3195,ytd:3195,lastMonth:1908,mom:"67.45%",lastYear:4307,yoy:"-25.82%"},
+  {maker:"上汽通用五菱",brand:"五菱（银标）",model:"星光730 PHEV",sales:2354,ytd:2354,lastMonth:3505,mom:"-32.84%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用五菱",brand:"五菱（银标）",model:"星光730 EV",sales:2117,ytd:2117,lastMonth:4336,mom:"-51.18%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用五菱",brand:"宝骏",model:"宝骏悦也PLUS",sales:1763,ytd:1763,lastMonth:2544,mom:"-30.70%",lastYear:120,yoy:"1369.17%"},
+  {maker:"上汽通用五菱",brand:"五菱（银标）",model:"星光560 PHEV",sales:1603,ytd:1603,lastMonth:1018,mom:"57.47%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用五菱",brand:"五菱",model:"宏光MINI EV",sales:1572,ytd:1572,lastMonth:18526,mom:"-91.51%",lastYear:22637,yoy:"-93.06%"},
+  {maker:"上汽通用五菱",brand:"五菱（银标）",model:"晴空",sales:912,ytd:912,lastMonth:792,mom:"15.15%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用五菱",brand:"五菱",model:"五菱缤果",sales:928,ytd:928,lastMonth:1970,mom:"-52.89%",lastYear:5108,yoy:"-81.83%"},
+  {maker:"上汽通用五菱",brand:"五菱（银标）",model:"星光560 BEV",sales:583,ytd:583,lastMonth:231,mom:"152.38%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用五菱",brand:"五菱",model:"五菱新宏光REEV",sales:623,ytd:623,lastMonth:364,mom:"71.15%",lastYear:1,yoy:"--"},
+  {maker:"上汽通用五菱",brand:"五菱",model:"五菱星光S PHEV",sales:589,ytd:589,lastMonth:1263,mom:"-53.37%",lastYear:892,yoy:"-33.97%"},
+  // 一汽丰田
+  {maker:"一汽丰田",brand:"丰田",model:"卡罗拉锐放 HEV",sales:4690,ytd:4690,lastMonth:7171,mom:"-34.60%",lastYear:5053,yoy:"-7.18%"},
+  {maker:"一汽丰田",brand:"丰田",model:"丰田RAV4 混动",sales:4110,ytd:4110,lastMonth:1844,mom:"122.89%",lastYear:586,yoy:"601.37%"},
+  // 东风日产
+  {maker:"东风日产",brand:"日产",model:"N6 PHEV",sales:3310,ytd:3310,lastMonth:5000,mom:"-33.80%",lastYear:0,yoy:"--"},
+  {maker:"东风日产",brand:"日产",model:"奇骏",sales:2761,ytd:2761,lastMonth:4500,mom:"-38.64%",lastYear:5200,yoy:"-46.90%"},
+  {maker:"东风日产",brand:"日产",model:"N7",sales:717,ytd:717,lastMonth:1200,mom:"-40.25%",lastYear:0,yoy:"--"},
+  // 上汽通用
+  {maker:"上汽通用",brand:"别克",model:"别克GL8 48v",sales:3823,ytd:3823,lastMonth:6000,mom:"-36.28%",lastYear:5500,yoy:"-30.49%"},
+  {maker:"上汽通用",brand:"别克",model:"别克 至境世家 PHEV",sales:3810,ytd:3810,lastMonth:4500,mom:"-15.33%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用",brand:"凯迪拉克",model:"凯迪拉克CT5",sales:3418,ytd:3418,lastMonth:4000,mom:"-14.55%",lastYear:3500,yoy:"-2.34%"},
+  {maker:"上汽通用",brand:"别克",model:"君威",sales:3058,ytd:3058,lastMonth:4200,mom:"-27.19%",lastYear:2800,yoy:"9.21%"},
+  {maker:"上汽通用",brand:"别克",model:"别克GL8 PHEV",sales:1303,ytd:1303,lastMonth:2000,mom:"-34.85%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用",brand:"凯迪拉克",model:"凯迪拉克XT4 48V",sales:836,ytd:836,lastMonth:1200,mom:"-30.33%",lastYear:1100,yoy:"-24.00%"},
+  {maker:"上汽通用",brand:"别克",model:"至境L7",sales:823,ytd:823,lastMonth:1500,mom:"-45.13%",lastYear:0,yoy:"--"},
+  {maker:"上汽通用",brand:"雪佛兰",model:"科沃兹",sales:653,ytd:653,lastMonth:800,mom:"-18.38%",lastYear:700,yoy:"-6.71%"},
+  // 华晨宝马
+  {maker:"华晨宝马",brand:"宝马",model:"宝马X1",sales:5864,ytd:5864,lastMonth:7000,mom:"-16.23%",lastYear:5500,yoy:"6.62%"},
+  {maker:"华晨宝马",brand:"宝马",model:"宝马X5 48V",sales:5791,ytd:5791,lastMonth:6500,mom:"-10.91%",lastYear:4800,yoy:"20.65%"},
+  {maker:"华晨宝马",brand:"宝马",model:"宝马i3",sales:1626,ytd:1626,lastMonth:3000,mom:"-45.80%",lastYear:2500,yoy:"-34.96%"},
+  {maker:"华晨宝马",brand:"宝马",model:"宝马iX1",sales:1077,ytd:1077,lastMonth:1800,mom:"-40.17%",lastYear:1200,yoy:"-10.25%"},
+  // 一汽大众
+  {maker:"一汽大众",brand:"捷达",model:"捷达VS5",sales:4284,ytd:4284,lastMonth:3800,mom:"12.74%",lastYear:3900,yoy:"9.85%"},
+  {maker:"一汽大众",brand:"奥迪",model:"奥迪Q3",sales:2315,ytd:2315,lastMonth:3000,mom:"-22.83%",lastYear:2100,yoy:"10.24%"},
+  {maker:"一汽大众",brand:"捷达",model:"捷达VA3",sales:2131,ytd:2131,lastMonth:2500,mom:"-14.76%",lastYear:1800,yoy:"18.39%"},
+  {maker:"一汽大众",brand:"大众",model:"探歌",sales:2071,ytd:2071,lastMonth:3500,mom:"-40.83%",lastYear:2800,yoy:"-26.04%"},
+  {maker:"一汽大众",brand:"捷达",model:"捷达VS8",sales:1640,ytd:1640,lastMonth:2000,mom:"-18.00%",lastYear:0,yoy:"--"},
+  {maker:"一汽大众",brand:"大众",model:"高尔夫",sales:1173,ytd:1173,lastMonth:2000,mom:"-41.35%",lastYear:1500,yoy:"-21.80%"},
+  {maker:"一汽大众",brand:"捷达",model:"捷达VS7",sales:896,ytd:896,lastMonth:1100,mom:"-18.55%",lastYear:800,yoy:"12.00%"},
+  {maker:"一汽大众",brand:"大众",model:"揽巡",sales:832,ytd:832,lastMonth:1500,mom:"-44.53%",lastYear:1200,yoy:"-30.67%"},
+  {maker:"一汽大众",brand:"大众",model:"大众CC",sales:681,ytd:681,lastMonth:1200,mom:"-43.25%",lastYear:900,yoy:"-24.33%"},
+  // 上汽乘用车
+  {maker:"上汽乘用车",brand:"MG",model:"MG HS",sales:6339,ytd:6339,lastMonth:8000,mom:"-20.76%",lastYear:5000,yoy:"26.78%"},
+  {maker:"上汽乘用车",brand:"荣威",model:"荣威i5",sales:3096,ytd:3096,lastMonth:5000,mom:"-38.08%",lastYear:4000,yoy:"-22.60%"},
+  {maker:"上汽乘用车",brand:"MG",model:"MG eHS",sales:3062,ytd:3062,lastMonth:4000,mom:"-23.45%",lastYear:0,yoy:"--"},
+  {maker:"上汽乘用车",brand:"尚界",model:"尚界H5 REEV",sales:2834,ytd:2834,lastMonth:4000,mom:"-29.15%",lastYear:0,yoy:"--"},
+  {maker:"上汽乘用车",brand:"MG",model:"MG ES5",sales:2730,ytd:2730,lastMonth:3500,mom:"-22.00%",lastYear:0,yoy:"--"},
+  {maker:"上汽乘用车",brand:"智己",model:"智己LS9",sales:2458,ytd:2458,lastMonth:3000,mom:"-18.07%",lastYear:0,yoy:"--"},
+  {maker:"上汽乘用车",brand:"荣威",model:"荣威RX9 PHEV",sales:1447,ytd:1447,lastMonth:2000,mom:"-27.65%",lastYear:0,yoy:"--"},
+  {maker:"上汽乘用车",brand:"尚界",model:"尚界H5 EV",sales:1406,ytd:1406,lastMonth:2000,mom:"-29.70%",lastYear:0,yoy:"--"},
+  {maker:"上汽乘用车",brand:"智己",model:"智己LS6",sales:1336,ytd:1336,lastMonth:3000,mom:"-55.47%",lastYear:2500,yoy:"-46.56%"},
+  {maker:"上汽乘用车",brand:"MG",model:"MG7",sales:1244,ytd:1244,lastMonth:2000,mom:"-37.80%",lastYear:1500,yoy:"-17.07%"},
+  {maker:"上汽乘用车",brand:"MG",model:"MG 6",sales:1081,ytd:1081,lastMonth:1800,mom:"-39.94%",lastYear:1200,yoy:"-9.92%"},
+  {maker:"上汽乘用车",brand:"荣威",model:"荣威D6",sales:1006,ytd:1006,lastMonth:1500,mom:"-32.93%",lastYear:0,yoy:"--"},
+  {maker:"上汽乘用车",brand:"智己",model:"智己L6",sales:848,ytd:848,lastMonth:2000,mom:"-57.60%",lastYear:1500,yoy:"-43.47%"}
+];
+
 // ==================== 车型详细信息 (来源：懂车帝/汽车之家) ====================
 var modelSpecs = {
   // 轿车
@@ -717,6 +874,7 @@ var brandNation = {
   "腾势":"自主","荣威":"自主","五菱":"自主","东风风行":"自主","江淮":"自主","星途":"自主",
   "极狐":"自主","智己":"自主","智界":"自主","尚界":"自主","纳米":"自主","BAW":"自主",
   "iCAR":"自主","享界":"自主","萤火虫":"自主","蓝电":"自主","eπ":"自主","凯翼":"自主",
+  "欧拉":"自主","逸达":"自主","阿维塔":"自主",
   "大众":"德系","丰田":"日系","特斯拉":"美系","奥迪":"德系","日产":"日系","宝马":"德系",
   "别克":"美系","奔驰":"德系","福特":"美系","本田":"日系","起亚":"韩系","现代":"韩系",
   "捷达":"德系","凯迪拉克":"美系","马自达":"日系","林肯":"美系","MINI":"英系",
@@ -824,6 +982,7 @@ var allDataCache = [];
 
 function buildAllData() {
   allDataCache = [];
+  var modelNameCache = {};
   // 车企数据
   makerData.forEach(function(d){
     allDataCache.push({
@@ -836,6 +995,7 @@ function buildAllData() {
   // 轿车
   sedanData.forEach(function(d){
     var sp = modelSpecs[d.model]||{};
+    modelNameCache[d.model] = true;
     allDataCache.push({
       rank:d.rank, cat:"轿车", nation:brandNation[d.brand]||"自主", maker:d.maker,
       brand:d.brand, model:d.model, sales:d.sales, ytd:d.ytd, lastMonth:d.lastMonth,
@@ -847,6 +1007,7 @@ function buildAllData() {
   // SUV
   suvData.forEach(function(d){
     var sp = modelSpecs[d.model]||{};
+    modelNameCache[d.model] = true;
     allDataCache.push({
       rank:d.rank, cat:"SUV", nation:brandNation[d.brand]||"自主", maker:d.maker,
       brand:d.brand, model:d.model, sales:d.sales, ytd:d.ytd, lastMonth:d.lastMonth,
@@ -858,12 +1019,24 @@ function buildAllData() {
   // MPV
   mpvData.forEach(function(d){
     var sp = modelSpecs[d.model]||{};
+    modelNameCache[d.model] = true;
     allDataCache.push({
       rank:d.rank, cat:"MPV", nation:brandNation[d.brand]||"自主", maker:d.maker,
       brand:d.brand, model:d.model, sales:d.sales, ytd:d.ytd, lastMonth:d.lastMonth,
       mom:d.mom, lastYear:d.lastYear, yoy:d.yoy,
       power:sp.power||"", price:sp.price||"", priceRange:getPriceRange(sp.price||""),
       level:sp.level||"", size:sp.size||"", wb:sp.wb||""
+    });
+  });
+  // 车企明细 (dedup by model name)
+  cqxlExtra.forEach(function(d){
+    if (modelNameCache[d.model]) return;
+    modelNameCache[d.model] = true;
+    allDataCache.push({
+      rank:0, cat:"车企明细", nation:brandNation[d.brand]||"自主", maker:d.maker,
+      brand:d.brand, model:d.model, sales:d.sales, ytd:d.ytd, lastMonth:d.lastMonth,
+      mom:d.mom, lastYear:d.lastYear, yoy:d.yoy,
+      power:"", price:"", priceRange:"", level:"", size:"", wb:""
     });
   });
   // 按当月销量排名
@@ -945,7 +1118,7 @@ document.querySelectorAll("#tblAll th[data-sort]").forEach(function(th){
 
 // ==================== CSV导出 ====================
 function exportCSV() {
-  var headers = ["排名","类别","系别","车企","品牌","车型","当月销量","本年累计","上月销量","环比","去年同期","同比","动力类型","指导价(万)","价格区间","级别","尺寸(mm)","轴距(mm)"];
+  var headers = ["排名","类别","系别","车企","品牌","车型","1月销量","本年累计","12月销量","环比","去年同期","同比","动力类型","指导价(万)","价格区间","级别","尺寸(mm)","轴距(mm)"];
   var rows = [headers.join(",")];
   allDataCache.forEach(function(d){
     rows.push([d.rank,d.cat,d.nation,d.maker,d.brand,d.model,d.sales,d.ytd,d.lastMonth,d.mom,d.lastYear,d.yoy,d.power,d.price,d.priceRange,d.level,d.size,d.wb].join(","));
