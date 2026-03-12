@@ -153,6 +153,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
 <div class="nav-bar">
   <button class="nav-btn active" onclick="switchTab('overview')">市场概览</button>
   <button class="nav-btn" onclick="switchTab('brand')">品牌排行</button>
+  <button class="nav-btn" onclick="switchTab('maker')">车企排行</button>
   <button class="nav-btn" onclick="switchTab('sedan')">轿车排行</button>
   <button class="nav-btn" onclick="switchTab('suv')">SUV排行</button>
   <button class="nav-btn" onclick="switchTab('mpv')">MPV排行</button>
@@ -196,6 +197,21 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
     </div>
     <div class="table-wrap"><table id="tblBrand"><thead><tr>
       <th data-sort="rank">排名</th><th>类型</th><th>品牌</th>
+      <th data-sort="sales">当月销量</th><th data-sort="ytd">本年累计</th>
+      <th data-sort="lastMonth">上月销量</th><th data-sort="mom">环比</th>
+      <th data-sort="lastYear">去年同期</th><th data-sort="yoy">同比</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+</div>
+
+<!-- 车企排行 -->
+<div class="content hidden" id="sec-maker">
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">2026年1月车企销量排行榜 TOP50</span>
+    </div>
+    <div class="table-wrap"><table id="tblMaker"><thead><tr>
+      <th data-sort="rank">排名</th><th>车企</th>
       <th data-sort="sales">当月销量</th><th data-sort="ytd">本年累计</th>
       <th data-sort="lastMonth">上月销量</th><th data-sort="mom">环比</th>
       <th data-sort="lastYear">去年同期</th><th data-sort="yoy">同比</th>
@@ -253,7 +269,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
   <div class="filter-bar">
     <label>类别:</label>
     <select id="fltCat" onchange="renderAllData()">
-      <option value="">全部</option><option value="品牌">品牌</option>
+      <option value="">全部</option><option value="车企">车企</option>
       <option value="轿车">轿车</option><option value="SUV">SUV</option><option value="MPV">MPV</option>
     </select>
     <label>系别:</label>
@@ -393,6 +409,60 @@ brandHZ.forEach(function(b){ b.cat = "合资"; });
 
 var brandAll = brandZZ.concat(brandHZ).sort(function(a,b){ return b.sales - a.sales; });
 brandAll.forEach(function(b,i){ b.rank = i+1; });
+
+// 车企 TOP50
+var makerData = [
+  {rank:1,maker:"吉利汽车",sales:276038,ytd:276038,lastMonth:251456,mom:"9.78%",lastYear:271675,yoy:"1.61%"},
+  {rank:2,maker:"比亚迪汽车",sales:205518,ytd:205518,lastMonth:414784,mom:"-50.45%",lastYear:296446,yoy:"-30.67%"},
+  {rank:3,maker:"奇瑞汽车",sales:187403,ytd:187403,lastMonth:225765,mom:"-16.99%",lastYear:216321,yoy:"-13.37%"},
+  {rank:4,maker:"一汽大众",sales:128073,ytd:128073,lastMonth:141042,mom:"-9.20%",lastYear:130167,yoy:"-1.61%"},
+  {rank:5,maker:"上汽乘用车",sales:82075,ytd:82075,lastMonth:108769,mom:"-24.54%",lastYear:53144,yoy:"54.44%"},
+  {rank:6,maker:"长城汽车",sales:74948,ytd:74948,lastMonth:108615,mom:"-31.00%",lastYear:68602,yoy:"9.25%"},
+  {rank:7,maker:"特斯拉汽车",sales:69129,ytd:69129,lastMonth:97171,mom:"-28.86%",lastYear:63238,yoy:"9.32%"},
+  {rank:8,maker:"长安汽车",sales:68409,ytd:68409,lastMonth:139817,mom:"-51.07%",lastYear:193028,yoy:"-64.56%"},
+  {rank:9,maker:"上汽大众",sales:68402,ytd:68402,lastMonth:87870,mom:"-22.16%",lastYear:75150,yoy:"-8.98%"},
+  {rank:10,maker:"广汽丰田",sales:62600,ytd:62600,lastMonth:68817,mom:"-9.03%",lastYear:57000,yoy:"9.82%"},
+  {rank:11,maker:"上汽通用五菱",sales:55905,ytd:55905,lastMonth:84816,mom:"-34.09%",lastYear:59812,yoy:"-6.53%"},
+  {rank:12,maker:"一汽丰田",sales:49283,ytd:49283,lastMonth:80295,mom:"-38.62%",lastYear:49004,yoy:"0.57%"},
+  {rank:13,maker:"东风日产",sales:47355,ytd:47355,lastMonth:53786,mom:"-11.96%",lastYear:49373,yoy:"-4.09%"},
+  {rank:14,maker:"上汽通用",sales:43503,ytd:43503,lastMonth:47753,mom:"-8.90%",lastYear:33694,yoy:"29.11%"},
+  {rank:15,maker:"华晨宝马",sales:43494,ytd:43494,lastMonth:48293,mom:"-9.94%",lastYear:43507,yoy:"-0.03%"},
+  {rank:16,maker:"赛力斯",sales:40200,ytd:40200,lastMonth:53654,mom:"-25.08%",lastYear:16408,yoy:"145.00%"},
+  {rank:17,maker:"小米汽车",sales:39002,ytd:39002,lastMonth:50212,mom:"-22.33%",lastYear:22897,yoy:"70.34%"},
+  {rank:18,maker:"一汽红旗",sales:33785,ytd:33785,lastMonth:37662,mom:"-10.29%",lastYear:39857,yoy:"-15.23%"},
+  {rank:19,maker:"零跑汽车",sales:32059,ytd:32059,lastMonth:60423,mom:"-46.94%",lastYear:25170,yoy:"27.37%"},
+  {rank:20,maker:"东风乘用车",sales:28485,ytd:28485,lastMonth:24227,mom:"17.58%",lastYear:15046,yoy:"89.32%"},
+  {rank:21,maker:"广汽乘用车",sales:27684,ytd:27684,lastMonth:24286,mom:"13.99%",lastYear:18283,yoy:"51.42%"},
+  {rank:22,maker:"理想汽车",sales:27668,ytd:27668,lastMonth:44246,mom:"-37.47%",lastYear:29927,yoy:"-7.55%"},
+  {rank:23,maker:"北京奔驰",sales:27619,ytd:27619,lastMonth:41653,mom:"-33.69%",lastYear:39300,yoy:"-29.72%"},
+  {rank:24,maker:"蔚来汽车",sales:27182,ytd:27182,lastMonth:48135,mom:"-43.53%",lastYear:13863,yoy:"96.08%"},
+  {rank:25,maker:"广汽埃安新能源",sales:21635,ytd:21635,lastMonth:42141,mom:"-48.66%",lastYear:7968,yoy:"171.52%"},
+  {rank:26,maker:"小鹏汽车",sales:20011,ytd:20011,lastMonth:37508,mom:"-46.65%",lastYear:30350,yoy:"-34.07%"},
+  {rank:27,maker:"江苏悦达起亚",sales:16201,ytd:16201,lastMonth:20666,mom:"-21.61%",lastYear:15699,yoy:"3.20%"},
+  {rank:28,maker:"北京现代",sales:15980,ytd:15980,lastMonth:18062,mom:"-11.53%",lastYear:16810,yoy:"-4.94%"},
+  {rank:29,maker:"长安福特",sales:14358,ytd:14358,lastMonth:17508,mom:"-17.99%",lastYear:17513,yoy:"-18.02%"},
+  {rank:30,maker:"北汽越野",sales:12637,ytd:12637,lastMonth:18651,mom:"-32.24%",lastYear:5486,yoy:"130.35%"},
+  {rank:31,maker:"东风本田",sales:12567,ytd:12567,lastMonth:37215,mom:"-66.23%",lastYear:19971,yoy:"-37.07%"},
+  {rank:32,maker:"江铃汽车",sales:10259,ytd:10259,lastMonth:17394,mom:"-41.02%",lastYear:2371,yoy:"332.69%"},
+  {rank:33,maker:"吉利沃尔沃",sales:9571,ytd:9571,lastMonth:13324,mom:"-28.17%",lastYear:10541,yoy:"-9.20%"},
+  {rank:34,maker:"江淮汽车",sales:8162,ytd:8162,lastMonth:15109,mom:"-45.98%",lastYear:10939,yoy:"-25.39%"},
+  {rank:35,maker:"长安马自达",sales:8001,ytd:8001,lastMonth:11705,mom:"-31.64%",lastYear:6604,yoy:"21.15%"},
+  {rank:36,maker:"睿蓝汽车",sales:6998,ytd:6998,lastMonth:14209,mom:"-50.75%",lastYear:2567,yoy:"172.61%"},
+  {rank:37,maker:"北京汽车",sales:6716,ytd:6716,lastMonth:11692,mom:"-42.56%",lastYear:1389,yoy:"383.51%"},
+  {rank:38,maker:"光束汽车",sales:6202,ytd:6202,lastMonth:2464,mom:"151.70%",lastYear:0,yoy:"--"},
+  {rank:39,maker:"神龙汽车",sales:5639,ytd:5639,lastMonth:4890,mom:"15.32%",lastYear:3792,yoy:"48.71%"},
+  {rank:40,maker:"东风柳汽",sales:5561,ytd:5561,lastMonth:12504,mom:"-55.53%",lastYear:5167,yoy:"7.63%"},
+  {rank:41,maker:"北汽麦格纳",sales:5107,ytd:5107,lastMonth:24834,mom:"-79.44%",lastYear:6017,yoy:"-15.12%"},
+  {rank:42,maker:"国新新能源",sales:4884,ytd:4884,lastMonth:19167,mom:"-74.52%",lastYear:9413,yoy:"-48.11%"},
+  {rank:43,maker:"广汽本田",sales:4558,ytd:4558,lastMonth:50984,mom:"-91.06%",lastYear:15123,yoy:"-69.86%"},
+  {rank:44,maker:"北京制造",sales:4481,ytd:4481,lastMonth:7694,mom:"-41.76%",lastYear:3340,yoy:"34.16%"},
+  {rank:45,maker:"开瑞汽车",sales:4093,ytd:4093,lastMonth:6543,mom:"-37.44%",lastYear:0,yoy:"--"},
+  {rank:46,maker:"智马达汽车",sales:3768,ytd:3768,lastMonth:5276,mom:"-28.58%",lastYear:2460,yoy:"53.17%"},
+  {rank:47,maker:"东风小康",sales:3312,ytd:3312,lastMonth:5869,mom:"-43.57%",lastYear:1885,yoy:"75.70%"},
+  {rank:48,maker:"凯翼汽车",sales:2473,ytd:2473,lastMonth:2486,mom:"-0.52%",lastYear:4122,yoy:"-40.00%"},
+  {rank:49,maker:"东风纳米",sales:2458,ytd:2458,lastMonth:3196,mom:"-23.09%",lastYear:1408,yoy:"74.57%"},
+  {rank:50,maker:"鑫源汽车",sales:2394,ytd:2394,lastMonth:2128,mom:"12.50%",lastYear:2899,yoy:"-17.42%"}
+];
 
 // 轿车 TOP50
 var sedanData = [
@@ -695,7 +765,7 @@ function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll(".nav-btn").forEach(function(b){ b.classList.remove("active"); });
   event.target.classList.add("active");
-  ["overview","brand","sedan","suv","mpv","all"].forEach(function(id){
+  ["overview","brand","maker","sedan","suv","mpv","all"].forEach(function(id){
     document.getElementById("sec-"+id).classList.toggle("hidden", id !== tab);
   });
   if (tab === "all") renderAllData();
@@ -754,12 +824,12 @@ var allDataCache = [];
 
 function buildAllData() {
   allDataCache = [];
-  // 品牌数据
-  brandAll.forEach(function(b){
+  // 车企数据
+  makerData.forEach(function(d){
     allDataCache.push({
-      rank:b.rank, cat:"品牌", nation:brandNation[b.brand]||"", maker:"",
-      brand:b.brand, model:"", sales:b.sales, ytd:b.ytd, lastMonth:b.lastMonth,
-      mom:b.mom, lastYear:b.lastYear, yoy:b.yoy,
+      rank:0, cat:"车企", nation:"", maker:d.maker,
+      brand:"", model:"", sales:d.sales, ytd:d.ytd, lastMonth:d.lastMonth,
+      mom:d.mom, lastYear:d.lastYear, yoy:d.yoy,
       power:"", price:"", priceRange:"", level:"", size:"", wb:""
     });
   });
@@ -796,6 +866,17 @@ function buildAllData() {
       level:sp.level||"", size:sp.size||"", wb:sp.wb||""
     });
   });
+  // 按当月销量排名
+  allDataCache.sort(function(a,b){ return b.sales - a.sales; });
+  allDataCache.forEach(function(d,i){ d.rank = i + 1; });
+}
+
+// ==================== 车企排行渲染 ====================
+function renderMaker() {
+  var tb = document.querySelector("#tblMaker tbody");
+  tb.innerHTML = makerData.map(function(d){
+    return '<tr><td class="'+rankClass(d.rank)+'">'+d.rank+'</td><td class="brand-cell">'+d.maker+'</td><td class="num">'+fmtNum(d.sales)+'</td><td class="num">'+fmtNum(d.ytd)+'</td><td class="num">'+fmtNum(d.lastMonth)+'</td><td class="num '+pctClass(d.mom)+'">'+d.mom+'</td><td class="num">'+fmtNum(d.lastYear)+'</td><td class="num '+pctClass(d.yoy)+'">'+d.yoy+'</td></tr>';
+  }).join("");
 }
 
 function renderAllData() {
@@ -880,6 +961,7 @@ function exportCSV() {
 buildAllData();
 renderOverview();
 renderBrand();
+renderMaker();
 renderModelTable("tblSedan", sedanData);
 renderModelTable("tblSuv", suvData);
 renderModelTable("tblMpv", mpvData);
