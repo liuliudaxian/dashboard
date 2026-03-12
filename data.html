@@ -269,7 +269,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
   <div class="filter-bar">
     <label>类别:</label>
     <select id="fltCat" onchange="renderAllData()">
-      <option value="">全部</option><option value="车企">车企</option>
+      <option value="">全部</option>
       <option value="轿车">轿车</option><option value="SUV">SUV</option><option value="MPV">MPV</option>
       <option value="车企明细">车企明细</option>
     </select>
@@ -297,7 +297,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
       <span id="allCount" style="color:#78909c;font-size:12px;"></span>
     </div>
     <div class="table-wrap"><table id="tblAll"><thead><tr>
-      <th data-sort="rank">排名</th><th>类别</th><th>系别</th><th>车企</th><th>品牌</th><th>车型</th>
+      <th data-sort="rank">排名</th><th>车企</th><th>品牌</th><th>车型</th><th>类别</th><th>系别</th>
       <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
       <th data-sort="lastMonth">12月销量</th><th data-sort="mom">环比</th>
       <th data-sort="lastYear">去年同期</th><th data-sort="yoy">同比</th>
@@ -861,7 +861,162 @@ var modelSpecs = {
   "菱智新能源":{price:"12.99-14.99",power:"纯电",level:"中型MPV",size:"5145×1720×2000",wb:"3000"},
   "威霆":{price:"28.98-34.18",power:"燃油",level:"中大型MPV",size:"5370×1928×1880",wb:"3430"},
   "奔驰V-Class":{price:"47.88-65.18",power:"燃油",level:"大型MPV",size:"5370×1928×1880",wb:"3430"},
-  "五菱征程":{price:"5.88-6.88",power:"燃油",level:"中型MPV",size:"4710×1715×1780",wb:"2800"}
+  "五菱征程":{price:"5.88-6.88",power:"燃油",level:"中型MPV",size:"4710×1715×1780",wb:"2800"},
+
+  // ===== 车企明细补充 (cqxlExtra, 数据源: 百度百科+汽车之家) =====
+  // 赛力斯/问界
+  "问界M8 REEV":{price:"35.98-44.98",power:"增程",level:"中大型SUV",size:"5190×1999×1795",wb:"3105"},
+  "问界M9 REEV":{price:"46.98-56.98",power:"增程",level:"中大型SUV",size:"5230×1999×1800",wb:"3110"},
+  "问界M8 EV":{price:"35.98-44.98",power:"纯电",level:"中大型SUV",size:"5190×1999×1795",wb:"3105"},
+  "问界M5":{price:"24.98-30.98",power:"增程",level:"中型SUV",size:"4785×1930×1620",wb:"2880"},
+  "问界M9 BEV":{price:"46.98-56.98",power:"纯电",level:"中大型SUV",size:"5230×1999×1800",wb:"3110"},
+  // 小米
+  "小米SU7":{price:"21.59-29.99",power:"纯电",level:"中大型车",size:"4997×1963×1440",wb:"3000"},
+  // 一汽红旗
+  "红旗HS5":{price:"18.38-24.98",power:"燃油",level:"中型SUV",size:"4785×1905×1700",wb:"2870"},
+  "HS6 PHEV":{price:"18.98-23.98",power:"混动",level:"中型SUV",size:"4785×1905×1700",wb:"2870"},
+  "E-QM5":{price:"8.98-20.18",power:"纯电",level:"中型车",size:"5040×1910×1569",wb:"2990"},
+  "红旗H6":{price:"17.98-23.98",power:"燃油",level:"中型车",size:"4990×1880×1455",wb:"2920"},
+  "红旗HS3 PHEV":{price:"14.58-19.58",power:"混动",level:"紧凑型SUV",size:"4655×1900×1668",wb:"2770"},
+  "红旗H9":{price:"32.98-53.98",power:"燃油",level:"中大型车",size:"5137×1904×1498",wb:"3060"},
+  // 零跑
+  "零跑B10":{price:"9.98-12.98",power:"纯电",level:"紧凑型SUV",size:"4515×1885×1655",wb:"2735"},
+  "零跑C10 EV":{price:"12.88-16.88",power:"纯电",level:"中型SUV",size:"4739×1900×1680",wb:"2825"},
+  "零跑C10 REEV":{price:"13.58-16.58",power:"增程",level:"中型SUV",size:"4739×1900×1680",wb:"2825"},
+  "零跑C11":{price:"14.98-20.98",power:"纯电",level:"中型SUV",size:"4750×1905×1650",wb:"2930"},
+  "零跑B01":{price:"8.98-11.98",power:"纯电",level:"紧凑型车",size:"4770×1880×1490",wb:"2730"},
+  "零跑Lafa 5":{price:"15.98-21.98",power:"纯电",level:"中大型SUV",size:"4930×1930×1690",wb:"2930"},
+  "零跑C16 REEV":{price:"15.58-18.58",power:"增程",level:"中大型SUV",size:"4915×1905×1770",wb:"2825"},
+  "零跑C11 REEV":{price:"14.98-18.98",power:"增程",level:"中型SUV",size:"4750×1905×1650",wb:"2930"},
+  "零跑C16 EV":{price:"15.58-18.58",power:"纯电",level:"中大型SUV",size:"4915×1905×1770",wb:"2825"},
+  // 东风乘用车
+  "东风风神L7":{price:"8.99-15.69",power:"混动",level:"紧凑型SUV",size:"4685×1900×1625",wb:"2775"},
+  "岚图FREE REEV":{price:"22.89-39.36",power:"增程",level:"中大型SUV",size:"4905×1950×1645",wb:"2960"},
+  "岚图梦想家 PHEV":{price:"32.99-46.99",power:"混动",level:"中大型MPV",size:"5315×1985×1820",wb:"3200"},
+  "风神皓瀚 HEV":{price:"10.99-14.99",power:"混动",level:"紧凑型SUV",size:"4610×1860×1680",wb:"2710"},
+  "风神L8":{price:"12.99-14.99",power:"混动",level:"中型SUV",size:"4762×1910×1677",wb:"2825"},
+  "岚图泰山 PHEV":{price:"37.99-50.99",power:"混动",level:"大型SUV",size:"5230×2025×1817",wb:"3120"},
+  "岚图知音":{price:"20.29-24.29",power:"纯电",level:"中型SUV",size:"4725×1900×1620",wb:"2790"},
+  "皓极":{price:"12.99-21.90",power:"混动",level:"紧凑型SUV",size:"4720×1910×1702",wb:"2825"},
+  "eπ007 BEV":{price:"15.96-19.96",power:"纯电",level:"中大型车",size:"4880×1895×1460",wb:"2915"},
+  "eπ008 REEV":{price:"20.66-21.66",power:"增程",level:"中大型SUV",size:"5002×1972×1732",wb:"3025"},
+  "eπ008 BEV":{price:"20.66-21.66",power:"纯电",level:"中大型SUV",size:"5002×1972×1732",wb:"3025"},
+  // 长城汽车
+  "WEY 高山 PHEV":{price:"28.58-40.58",power:"混动",level:"中大型MPV",size:"5045×1960×1900",wb:"3085"},
+  "哈弗H9":{price:"19.90-24.79",power:"燃油",level:"中大型SUV",size:"5070×1976×1930",wb:"2850"},
+  "哈弗猛龙 PHEV":{price:"16.58-19.28",power:"混动",level:"紧凑型SUV",size:"4800×1916×1822",wb:"2738"},
+  "坦克500 PHEV":{price:"33.50-39.50",power:"混动",level:"中大型SUV",size:"5070×1934×1905",wb:"2850"},
+  "哈弗猛龙":{price:"16.58-19.28",power:"燃油",level:"紧凑型SUV",size:"4800×1916×1822",wb:"2738"},
+  "哈弗M6":{price:"6.60-8.69",power:"燃油",level:"紧凑型SUV",size:"4664×1830×1729",wb:"2680"},
+  "坦克400 PHEV":{price:"24.98-28.98",power:"混动",level:"中型SUV",size:"4985×1960×1905",wb:"2850"},
+  "哈弗F7":{price:"11.18-15.18",power:"燃油",level:"紧凑型SUV",size:"4620×1846×1690",wb:"2725"},
+  "哈弗赤兔":{price:"8.28-12.88",power:"混动",level:"紧凑型SUV",size:"4470×1898×1625",wb:"2700"},
+  "欧拉5":{price:"12.98-16.98",power:"纯电",level:"紧凑型车",size:"4653×1848×1485",wb:"2760"},
+  "坦克300 PHEV":{price:"21.58-28.98",power:"混动",level:"紧凑型SUV",size:"4760×1930×1903",wb:"2750"},
+  "坦克500":{price:"33.50-39.50",power:"燃油",level:"中大型SUV",size:"5070×1934×1905",wb:"2850"},
+  "哈弗H5":{price:"12.28-15.78",power:"燃油",level:"大型SUV",size:"5190×1976×1930",wb:"3140"},
+  "蓝山":{price:"27.58-32.68",power:"混动",level:"中大型SUV",size:"5156×1980×1805",wb:"3050"},
+  "欧拉好猫":{price:"12.98-16.58",power:"纯电",level:"小型车",size:"4235×1825×1596",wb:"2650"},
+  "坦克400":{price:"24.98-28.98",power:"燃油",level:"中型SUV",size:"4985×1960×1905",wb:"2850"},
+  "哈弗酷狗":{price:"12.38-14.98",power:"燃油",level:"紧凑型SUV",size:"4520×1875×1745",wb:"2710"},
+  "哈弗枭龙MAX":{price:"13.18-16.98",power:"混动",level:"中型SUV",size:"4780×1895×1725",wb:"2810"},
+  // 长安系
+  "长安CS55/CS55 plus":{price:"9.19-11.49",power:"燃油",level:"紧凑型SUV",size:"4500×1860×1690",wb:"2650"},
+  "深蓝S05 EV":{price:"11.99-14.99",power:"纯电",level:"紧凑型SUV",size:"4620×1900×1600",wb:"2880"},
+  "启源Q05":{price:"7.89-10.99",power:"混动",level:"紧凑型SUV",size:"4539×1865×1680",wb:"2656"},
+  "启源A06":{price:"11.99-15.99",power:"混动",level:"中型车",size:"4885×1916×1496",wb:"2922"},
+  "深蓝L06 BEV":{price:"15.19-17.09",power:"纯电",level:"中型车",size:"4875×1890×1480",wb:"2900"},
+  "深蓝S7 BEV":{price:"14.99-21.79",power:"纯电",level:"中型SUV",size:"4750×1930×1625",wb:"2900"},
+  "深蓝S09 REEV":{price:"23.99-30.99",power:"增程",level:"中大型SUV",size:"5205×1996×1800",wb:"3105"},
+  "长安UNI-V":{price:"10.29-13.19",power:"燃油",level:"紧凑型车",size:"4720×1838×1430",wb:"2750"},
+  "长安CS75 PRO":{price:"12.19-14.99",power:"燃油",level:"紧凑型SUV",size:"4700×1865×1700",wb:"2710"},
+  "引力T":{price:"11.59-13.39",power:"燃油",level:"紧凑型SUV",size:"4515×1870×1565",wb:"2710"},
+  "深蓝S05 REEV":{price:"11.99-14.99",power:"增程",level:"紧凑型SUV",size:"4620×1900×1600",wb:"2880"},
+  "阿维塔07":{price:"21.99-28.99",power:"增程",level:"中型SUV",size:"4825×1980×1620",wb:"2940"},
+  "深蓝S7 REEV":{price:"14.99-21.79",power:"增程",level:"中型SUV",size:"4750×1930×1625",wb:"2900"},
+  "深蓝 G318":{price:"17.59-23.59",power:"增程",level:"中大型SUV",size:"5010×1985×1895",wb:"2880"},
+  "悦翔V3":{price:"4.39-5.29",power:"燃油",level:"小型车",size:"4180×1650×1465",wb:"2410"},
+  "长安UNI-Z":{price:"9.99-13.19",power:"混动",level:"紧凑型SUV",size:"4730×1890×1680",wb:"2795"},
+  "长安CS35":{price:"6.39-8.79",power:"燃油",level:"小型SUV",size:"4170×1810×1670",wb:"2560"},
+  "逸达":{price:"8.79-10.79",power:"混动",level:"紧凑型车",size:"4770×1840×1440",wb:"2765"},
+  "启源A07 EV":{price:"11.99-17.69",power:"纯电",level:"中大型车",size:"4870×1890×1480",wb:"2900"},
+  "长安CS15":{price:"5.59-7.89",power:"燃油",level:"小型SUV",size:"4100×1740×1635",wb:"2510"},
+  "阿维塔12":{price:"26.99-42.99",power:"纯电",level:"中大型车",size:"5020×1999×1460",wb:"3020"},
+  // 上汽大众
+  "朗逸Pro":{price:"9.99-15.99",power:"燃油",level:"紧凑型车",size:"4678×1806×1474",wb:"2688"},
+  "凌渡":{price:"14.39-18.79",power:"燃油",level:"紧凑型车",size:"4599×1826×1425",wb:"2656"},
+  "奥迪A5L Sportback":{price:"28.98-38.98",power:"燃油",level:"中型车",size:"4829×1860×1425",wb:"2833"},
+  "途昂":{price:"24.90-38.90",power:"燃油",level:"中大型SUV",size:"5052×1989×1773",wb:"2980"},
+  "奥迪A7L":{price:"41.87-66.62",power:"燃油",level:"中大型车",size:"5076×1908×1429",wb:"3026"},
+  "奥迪Q6":{price:"45.96-63.06",power:"燃油",level:"大型SUV",size:"5099×2014×1784",wb:"2980"},
+  // 广汽丰田
+  "赛那SIENNA":{price:"29.98-41.08",power:"混动",level:"中大型MPV",size:"5165×1995×1765",wb:"3060"},
+  "威兰达FHEV":{price:"17.38-22.58",power:"混动",level:"紧凑型SUV",size:"4665×1855×1680",wb:"2690"},
+  "威兰达":{price:"17.38-22.58",power:"燃油",level:"紧凑型SUV",size:"4665×1855×1680",wb:"2690"},
+  "凯美瑞":{price:"17.18-25.98",power:"燃油",level:"中型车",size:"4900×1840×1455",wb:"2825"},
+  "锋兰达双擎":{price:"13.98-16.98",power:"混动",level:"紧凑型SUV",size:"4485×1825×1620",wb:"2640"},
+  "铂智3X":{price:"10.98-15.98",power:"纯电",level:"紧凑型SUV",size:"4600×1875×1645",wb:"2765"},
+  "汉兰达":{price:"24.98-32.58",power:"混动",level:"中大型SUV",size:"4965×1930×1750",wb:"2850"},
+  // 上汽通用五菱
+  "星光560":{price:"6.98-8.98",power:"混动",level:"紧凑型车",size:"4590×1820×1510",wb:"2700"},
+  "星光730":{price:"7.98-9.98",power:"混动",level:"中型MPV",size:"4700×1810×1780",wb:"2780"},
+  "五菱星驰":{price:"5.68-8.68",power:"燃油",level:"小型SUV",size:"4080×1760×1570",wb:"2560"},
+  "宝骏530":{price:"7.08-10.58",power:"燃油",level:"紧凑型SUV",size:"4695×1835×1750",wb:"2750"},
+  "星光730 PHEV":{price:"7.98-9.98",power:"混动",level:"中型MPV",size:"4700×1810×1780",wb:"2780"},
+  "星光730 EV":{price:"7.98-9.98",power:"纯电",level:"中型MPV",size:"4700×1810×1780",wb:"2780"},
+  "宝骏悦也PLUS":{price:"10.38-10.38",power:"纯电",level:"小型SUV",size:"3996×1760×1726",wb:"2560"},
+  "星光560 PHEV":{price:"6.98-8.98",power:"混动",level:"紧凑型车",size:"4590×1820×1510",wb:"2700"},
+  "宏光MINI EV":{price:"2.88-9.99",power:"纯电",level:"微型车",size:"2917×1493×1621",wb:"1940"},
+  "晴空":{price:"6.78-8.28",power:"纯电",level:"微型车",size:"2974×1505×1631",wb:"2010"},
+  "五菱缤果":{price:"5.68-8.48",power:"纯电",level:"微型车",size:"3950×1708×1580",wb:"2560"},
+  "星光560 BEV":{price:"6.98-8.98",power:"纯电",level:"紧凑型车",size:"4590×1820×1510",wb:"2700"},
+  "五菱新宏光REEV":{price:"5.98-7.98",power:"增程",level:"小型MPV",size:"4420×1685×1755",wb:"2720"},
+  "五菱星光S PHEV":{price:"7.98-12.58",power:"混动",level:"紧凑型车",size:"4835×1860×1515",wb:"2800"},
+  // 一汽丰田
+  "卡罗拉锐放 HEV":{price:"12.98-16.98",power:"混动",level:"紧凑型SUV",size:"4460×1825×1620",wb:"2640"},
+  "丰田RAV4 混动":{price:"17.58-25.98",power:"混动",level:"紧凑型SUV",size:"4600×1855×1680",wb:"2690"},
+  // 东风日产
+  "N6 PHEV":{price:"15.49-18.99",power:"混动",level:"紧凑型SUV",size:"4650×1840×1680",wb:"2706"},
+  "奇骏":{price:"18.88-27.33",power:"燃油",level:"紧凑型SUV",size:"4681×1840×1730",wb:"2706"},
+  "N7":{price:"11.99-14.99",power:"纯电",level:"中大型车",size:"4930×1895×1487",wb:"2915"},
+  // 上汽通用
+  "别克GL8 48v":{price:"22.99-47.39",power:"燃油",level:"中大型MPV",size:"5219×1878×1807",wb:"3088"},
+  "别克 至境世家 PHEV":{price:"35.99-41.99",power:"混动",level:"中大型MPV",size:"5219×1878×1807",wb:"3088"},
+  "凯迪拉克CT5":{price:"21.59-26.59",power:"燃油",level:"中型车",size:"4924×1883×1453",wb:"2947"},
+  "君威":{price:"14.99-18.89",power:"燃油",level:"中型车",size:"4904×1863×1461",wb:"2829"},
+  "别克GL8 PHEV":{price:"35.99-41.99",power:"混动",level:"中大型MPV",size:"5219×1878×1807",wb:"3088"},
+  "凯迪拉克XT4 48V":{price:"15.99-18.99",power:"燃油",level:"紧凑型SUV",size:"4600×1881×1627",wb:"2779"},
+  "至境L7":{price:"18.99-25.99",power:"混动",level:"中型SUV",size:"4770×1895×1680",wb:"2820"},
+  "科沃兹":{price:"7.99-11.49",power:"燃油",level:"紧凑型车",size:"4474×1730×1471",wb:"2600"},
+  // 华晨宝马
+  "宝马X1":{price:"27.98-33.98",power:"燃油",level:"紧凑型SUV",size:"4616×1845×1641",wb:"2802"},
+  "宝马X5 48V":{price:"59.80-84.99",power:"燃油",level:"中大型SUV",size:"4930×2004×1776",wb:"2975"},
+  "宝马i3":{price:"34.99-41.39",power:"纯电",level:"中型车",size:"4872×1848×1500",wb:"2966"},
+  "宝马iX1":{price:"29.99-33.99",power:"纯电",level:"紧凑型SUV",size:"4616×1845×1641",wb:"2802"},
+  // 一汽大众
+  "捷达VS5":{price:"8.79-12.19",power:"燃油",level:"紧凑型SUV",size:"4418×1841×1616",wb:"2630"},
+  "奥迪Q3":{price:"25.18-30.18",power:"燃油",level:"紧凑型SUV",size:"4385×1831×1608",wb:"2603"},
+  "捷达VA3":{price:"6.78-9.48",power:"燃油",level:"紧凑型车",size:"4501×1704×1469",wb:"2604"},
+  "探歌":{price:"15.89-20.49",power:"燃油",level:"紧凑型SUV",size:"4318×1819×1582",wb:"2680"},
+  "捷达VS8":{price:"9.59-10.99",power:"燃油",level:"中型SUV",size:"4629×1851×1624",wb:"2731"},
+  "高尔夫":{price:"11.60-23.58",power:"燃油",level:"紧凑型车",size:"4296×1788×1471",wb:"2636"},
+  "捷达VS7":{price:"10.79-14.19",power:"燃油",level:"中型SUV",size:"4624×1841×1644",wb:"2730"},
+  "揽巡":{price:"20.99-26.29",power:"燃油",level:"中大型SUV",size:"5007×2015×1778",wb:"2980"},
+  "大众CC":{price:"24.99-29.99",power:"燃油",level:"中型车",size:"4864×1870×1447",wb:"2841"},
+  // 上汽乘用车
+  "MG HS":{price:"11.98-18.98",power:"混动",level:"紧凑型SUV",size:"4655×1890×1655",wb:"2765"},
+  "荣威i5":{price:"6.89-11.59",power:"燃油",level:"紧凑型车",size:"4601×1818×1489",wb:"2680"},
+  "MG eHS":{price:"13.98-17.98",power:"混动",level:"紧凑型SUV",size:"4655×1890×1655",wb:"2765"},
+  "尚界H5 REEV":{price:"15.98-19.98",power:"增程",level:"中型SUV",size:"4780×1910×1664",wb:"2840"},
+  "MG ES5":{price:"11.69-14.69",power:"纯电",level:"紧凑型SUV",size:"4476×1849×1621",wb:"2730"},
+  "智己LS9":{price:"28.98-45.98",power:"纯电",level:"中大型SUV",size:"5098×1980×1485",wb:"3100"},
+  "荣威RX9 PHEV":{price:"17.58-24.38",power:"混动",level:"中大型SUV",size:"4983×1967×1786",wb:"2915"},
+  "尚界H5 EV":{price:"15.98-19.98",power:"纯电",level:"中型SUV",size:"4780×1910×1664",wb:"2840"},
+  "智己LS6":{price:"21.79-28.49",power:"纯电",level:"中大型SUV",size:"4937×1988×1673",wb:"2950"},
+  "MG7":{price:"11.98-17.89",power:"混动",level:"中型车",size:"4884×1889×1447",wb:"2778"},
+  "MG 6":{price:"9.38-14.28",power:"燃油",level:"紧凑型车",size:"4738×1848×1465",wb:"2715"},
+  "荣威D6":{price:"12.98-16.98",power:"混动",level:"紧凑型SUV",size:"4670×1890×1660",wb:"2750"},
+  "智己L6":{price:"20.49-26.49",power:"纯电",level:"中大型车",size:"4931×1960×1474",wb:"2950"}
 };
 
 // ==================== 品牌系别映射 ====================
@@ -983,15 +1138,6 @@ var allDataCache = [];
 function buildAllData() {
   allDataCache = [];
   var modelNameCache = {};
-  // 车企数据
-  makerData.forEach(function(d){
-    allDataCache.push({
-      rank:0, cat:"车企", nation:"", maker:d.maker,
-      brand:"", model:"", sales:d.sales, ytd:d.ytd, lastMonth:d.lastMonth,
-      mom:d.mom, lastYear:d.lastYear, yoy:d.yoy,
-      power:"", price:"", priceRange:"", level:"", size:"", wb:""
-    });
-  });
   // 轿车
   sedanData.forEach(function(d){
     var sp = modelSpecs[d.model]||{};
@@ -1032,11 +1178,13 @@ function buildAllData() {
   cqxlExtra.forEach(function(d){
     if (modelNameCache[d.model]) return;
     modelNameCache[d.model] = true;
+    var sp = modelSpecs[d.model]||{};
     allDataCache.push({
       rank:0, cat:"车企明细", nation:brandNation[d.brand]||"自主", maker:d.maker,
       brand:d.brand, model:d.model, sales:d.sales, ytd:d.ytd, lastMonth:d.lastMonth,
       mom:d.mom, lastYear:d.lastYear, yoy:d.yoy,
-      power:"", price:"", priceRange:"", level:"", size:"", wb:""
+      power:sp.power||"", price:sp.price||"", priceRange:getPriceRange(sp.price||""),
+      level:sp.level||"", size:sp.size||"", wb:sp.wb||""
     });
   });
   // 按当月销量排名
@@ -1089,7 +1237,7 @@ function renderAllData() {
 
   var tb = document.querySelector("#tblAll tbody");
   tb.innerHTML = pageData.map(function(d){
-    return '<tr><td class="'+rankClass(d.rank)+'">'+d.rank+'</td><td>'+d.cat+'</td><td>'+d.nation+'</td><td>'+d.maker+'</td><td class="brand-cell">'+d.brand+'</td><td>'+d.model+'</td><td class="num">'+fmtNum(d.sales)+'</td><td class="num">'+fmtNum(d.ytd)+'</td><td class="num">'+fmtNum(d.lastMonth)+'</td><td class="num '+pctClass(d.mom)+'">'+d.mom+'</td><td class="num">'+fmtNum(d.lastYear)+'</td><td class="num '+pctClass(d.yoy)+'">'+d.yoy+'</td><td>'+(d.power||"--")+'</td><td class="num">'+(d.price?d.price+"万":"--")+'</td><td>'+( d.priceRange||"--")+'</td><td>'+(d.level||"--")+'</td><td>'+(d.size||"--")+'</td><td class="num">'+(d.wb||"--")+'</td></tr>';
+    return '<tr><td class="'+rankClass(d.rank)+'">'+d.rank+'</td><td>'+d.maker+'</td><td class="brand-cell">'+d.brand+'</td><td>'+d.model+'</td><td>'+d.cat+'</td><td>'+d.nation+'</td><td class="num">'+fmtNum(d.sales)+'</td><td class="num">'+fmtNum(d.ytd)+'</td><td class="num">'+fmtNum(d.lastMonth)+'</td><td class="num '+pctClass(d.mom)+'">'+d.mom+'</td><td class="num">'+fmtNum(d.lastYear)+'</td><td class="num '+pctClass(d.yoy)+'">'+d.yoy+'</td><td>'+(d.power||"--")+'</td><td class="num">'+(d.price?d.price+"万":"--")+'</td><td>'+(d.priceRange||"--")+'</td><td>'+(d.level||"--")+'</td><td>'+(d.size||"--")+'</td><td class="num">'+(d.wb||"--")+'</td></tr>';
   }).join("");
 
   // 分页控件
@@ -1118,10 +1266,10 @@ document.querySelectorAll("#tblAll th[data-sort]").forEach(function(th){
 
 // ==================== CSV导出 ====================
 function exportCSV() {
-  var headers = ["排名","类别","系别","车企","品牌","车型","1月销量","本年累计","12月销量","环比","去年同期","同比","动力类型","指导价(万)","价格区间","级别","尺寸(mm)","轴距(mm)"];
+  var headers = ["排名","车企","品牌","车型","类别","系别","1月销量","本年累计","12月销量","环比","去年同期","同比","动力类型","指导价(万)","价格区间","级别","尺寸(mm)","轴距(mm)"];
   var rows = [headers.join(",")];
   allDataCache.forEach(function(d){
-    rows.push([d.rank,d.cat,d.nation,d.maker,d.brand,d.model,d.sales,d.ytd,d.lastMonth,d.mom,d.lastYear,d.yoy,d.power,d.price,d.priceRange,d.level,d.size,d.wb].join(","));
+    rows.push([d.rank,d.maker,d.brand,d.model,d.cat,d.nation,d.sales,d.ytd,d.lastMonth,d.mom,d.lastYear,d.yoy,d.power,d.price,d.priceRange,d.level,d.size,d.wb].join(","));
   });
   var blob = new Blob(["\uFEFF"+rows.join("\n")], {type:"text/csv;charset=utf-8;"});
   var a = document.createElement("a");
