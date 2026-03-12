@@ -184,10 +184,10 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
   @media (max-width: 900px) {
     .dashboard-header { padding: 10px 12px 0; }
     .dashboard-header h1 { font-size: 18px; letter-spacing: 2px; }
-    .header-stats { gap: 8px 16px; padding: 10px 0; }
-    .header-stat { min-width: 70px; }
-    .header-stat .value { font-size: 18px; }
-    .header-stat .label { font-size: 10px; }
+    .header-stats { flex-wrap: nowrap !important; gap: 4px !important; padding: 8px 0; justify-content: space-around; }
+    .header-stat { min-width: 0; flex: 1; }
+    .header-stat .value { font-size: 14px; }
+    .header-stat .label { font-size: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .grid { padding: 8px; gap: 10px; }
     .module-section { padding: 10px 8px; border-radius: 8px; }
     .module-grid, .module-grid.cols-2, .module-grid.cols-4 { grid-template-columns: 1fr !important; }
