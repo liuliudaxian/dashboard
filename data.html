@@ -152,12 +152,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
 
 <div class="nav-bar">
   <button class="nav-btn active" onclick="switchTab('overview')">市场概览</button>
-  <button class="nav-btn" onclick="switchTab('brand')">品牌排行</button>
-  <button class="nav-btn" onclick="switchTab('maker')">车企排行</button>
-  <button class="nav-btn" onclick="switchTab('sedan')">轿车排行</button>
-  <button class="nav-btn" onclick="switchTab('suv')">SUV排行</button>
-  <button class="nav-btn" onclick="switchTab('mpv')">MPV排行</button>
-  <button class="nav-btn" onclick="switchTab('all')">底层数据</button>
+  <button class="nav-btn" onclick="switchTab('all')">汽车销量数据</button>
 </div>
 
 <!-- 市场概览 -->
@@ -184,94 +179,21 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
   </div>
 </div>
 
-<!-- 品牌排行 -->
-<div class="content hidden" id="sec-brand">
-  <div class="panel">
-    <div class="panel-header">
-      <span class="panel-title">2026年1月品牌销量排行榜</span>
-      <div class="tab-group">
-        <button class="tab-btn active" onclick="filterBrand('all',this)">全部TOP20</button>
-        <button class="tab-btn" onclick="filterBrand('自主',this)">自主品牌</button>
-        <button class="tab-btn" onclick="filterBrand('合资',this)">合资品牌</button>
-      </div>
-    </div>
-    <div class="table-wrap"><table id="tblBrand"><thead><tr>
-      <th data-sort="rank">排名</th><th>类型</th><th>品牌</th>
-      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
-      <th data-sort="lastMonth">12月销量</th><th data-sort="mom">环比</th>
-      <th data-sort="lastYear">去年同期</th><th data-sort="yoy">同比</th>
-    </tr></thead><tbody></tbody></table></div>
-  </div>
-</div>
-
-<!-- 车企排行 -->
-<div class="content hidden" id="sec-maker">
-  <div class="panel">
-    <div class="panel-header">
-      <span class="panel-title">2026年1月车企销量排行榜 TOP50</span>
-    </div>
-    <div class="table-wrap"><table id="tblMaker"><thead><tr>
-      <th data-sort="rank">排名</th><th>车企</th>
-      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
-      <th data-sort="lastMonth">12月销量</th><th data-sort="mom">环比</th>
-      <th data-sort="lastYear">去年同期</th><th data-sort="yoy">同比</th>
-    </tr></thead><tbody></tbody></table></div>
-  </div>
-</div>
-
-<!-- 轿车排行 -->
-<div class="content hidden" id="sec-sedan">
-  <div class="panel">
-    <div class="panel-header">
-      <span class="panel-title">2026年1月轿车销量排行榜 TOP50</span>
-    </div>
-    <div class="table-wrap"><table id="tblSedan"><thead><tr>
-      <th data-sort="rank">排名</th><th>车企</th><th>品牌</th><th>车型</th>
-      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
-      <th data-sort="mom">环比</th><th data-sort="yoy">同比</th>
-      <th>指导价(万)</th><th>价格区间</th><th>级别</th><th>动力类型</th>
-    </tr></thead><tbody></tbody></table></div>
-  </div>
-</div>
-
-<!-- SUV排行 -->
-<div class="content hidden" id="sec-suv">
-  <div class="panel">
-    <div class="panel-header">
-      <span class="panel-title">2026年1月SUV销量排行榜 TOP50</span>
-    </div>
-    <div class="table-wrap"><table id="tblSuv"><thead><tr>
-      <th data-sort="rank">排名</th><th>车企</th><th>品牌</th><th>车型</th>
-      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
-      <th data-sort="mom">环比</th><th data-sort="yoy">同比</th>
-      <th>指导价(万)</th><th>价格区间</th><th>级别</th><th>动力类型</th>
-    </tr></thead><tbody></tbody></table></div>
-  </div>
-</div>
-
-<!-- MPV排行 -->
-<div class="content hidden" id="sec-mpv">
-  <div class="panel">
-    <div class="panel-header">
-      <span class="panel-title">2026年1月MPV销量排行榜</span>
-    </div>
-    <div class="table-wrap"><table id="tblMpv"><thead><tr>
-      <th data-sort="rank">排名</th><th>车企</th><th>品牌</th><th>车型</th>
-      <th data-sort="sales">1月销量</th><th data-sort="ytd">本年累计</th>
-      <th data-sort="mom">环比</th><th data-sort="yoy">同比</th>
-      <th>指导价(万)</th><th>价格区间</th><th>级别</th><th>动力类型</th>
-    </tr></thead><tbody></tbody></table></div>
-  </div>
-</div>
-
-<!-- 底层数据 -->
+<!-- 汽车销量数据 -->
 <div class="content hidden" id="sec-all">
   <div class="filter-bar">
     <label>类别:</label>
     <select id="fltCat" onchange="renderAllData()">
       <option value="">全部</option>
       <option value="轿车">轿车</option><option value="SUV">SUV</option><option value="MPV">MPV</option>
-      <option value="车企明细">车企明细</option>
+    </select>
+    <label>车企:</label>
+    <select id="fltMaker" onchange="renderAllData()">
+      <option value="">全部</option>
+    </select>
+    <label>品牌:</label>
+    <select id="fltBrand" onchange="renderAllData()">
+      <option value="">全部</option>
     </select>
     <label>系别:</label>
     <select id="fltNation" onchange="renderAllData()">
@@ -293,7 +215,7 @@ td.brand-cell { color: #b0bec5; font-weight: 500; }
   </div>
   <div class="panel">
     <div class="panel-header">
-      <span class="panel-title">全量数据明细</span>
+      <span class="panel-title">汽车销量数据</span>
       <span id="allCount" style="color:#78909c;font-size:12px;"></span>
     </div>
     <div class="table-wrap"><table id="tblAll"><thead><tr>
@@ -1078,7 +1000,7 @@ function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll(".nav-btn").forEach(function(b){ b.classList.remove("active"); });
   event.target.classList.add("active");
-  ["overview","brand","maker","sedan","suv","mpv","all"].forEach(function(id){
+  ["overview","all"].forEach(function(id){
     document.getElementById("sec-"+id).classList.toggle("hidden", id !== tab);
   });
   if (tab === "all") renderAllData();
@@ -1104,34 +1026,7 @@ function renderOverview() {
   }).join("");
 }
 
-// ==================== 品牌排行渲染 ====================
-var brandFilter = "all";
-function filterBrand(cat, el) {
-  brandFilter = cat;
-  el.parentElement.querySelectorAll(".tab-btn").forEach(function(b){ b.classList.remove("active"); });
-  el.classList.add("active");
-  renderBrand();
-}
-function renderBrand() {
-  var data = brandFilter === "all" ? brandAll.slice(0,20) :
-    (brandFilter === "自主" ? brandZZ : brandHZ);
-  var tb = document.querySelector("#tblBrand tbody");
-  tb.innerHTML = data.map(function(b){
-    return '<tr><td class="'+rankClass(b.rank)+'">'+b.rank+'</td><td>'+b.cat+'</td><td class="brand-cell">'+b.brand+'</td><td class="num">'+fmtNum(b.sales)+'</td><td class="num">'+fmtNum(b.ytd)+'</td><td class="num">'+fmtNum(b.lastMonth)+'</td><td class="num '+pctClass(b.mom)+'">'+b.mom+'</td><td class="num">'+fmtNum(b.lastYear)+'</td><td class="num '+pctClass(b.yoy)+'">'+b.yoy+'</td></tr>';
-  }).join("");
-}
-
-// ==================== 车型排行渲染 ====================
-function renderModelTable(tableId, data) {
-  var tb = document.querySelector("#"+tableId+" tbody");
-  tb.innerHTML = data.map(function(d){
-    var sp = modelSpecs[d.model] || {};
-    var pr = sp.price || "";
-    return '<tr><td class="'+rankClass(d.rank)+'">'+d.rank+'</td><td>'+d.maker+'</td><td class="brand-cell">'+d.brand+'</td><td>'+d.model+'</td><td class="num">'+fmtNum(d.sales)+'</td><td class="num">'+fmtNum(d.ytd)+'</td><td class="num '+pctClass(d.mom)+'">'+d.mom+'</td><td class="num '+pctClass(d.yoy)+'">'+d.yoy+'</td><td class="num">'+(pr?pr+"万":"--")+'</td><td>'+getPriceRange(pr)+'</td><td>'+(sp.level||"--")+'</td><td>'+(sp.power||"--")+'</td></tr>';
-  }).join("");
-}
-
-// ==================== 底层数据 ====================
+// ==================== 汽车销量数据 ====================
 var allPage = 1, allPageSize = 50, allSortKey = "sales", allSortAsc = false;
 var allDataCache = [];
 
@@ -1174,13 +1069,16 @@ function buildAllData() {
       level:sp.level||"", size:sp.size||"", wb:sp.wb||""
     });
   });
-  // 车企明细 (dedup by model name)
+  // 车企明细 (dedup by model name, 根据级别自动归类)
   cqxlExtra.forEach(function(d){
     if (modelNameCache[d.model]) return;
     modelNameCache[d.model] = true;
     var sp = modelSpecs[d.model]||{};
+    var autoCat = "轿车";
+    if (sp.level && sp.level.indexOf("SUV") >= 0) autoCat = "SUV";
+    else if (sp.level && sp.level.indexOf("MPV") >= 0) autoCat = "MPV";
     allDataCache.push({
-      rank:0, cat:"车企明细", nation:brandNation[d.brand]||"自主", maker:d.maker,
+      rank:0, cat:autoCat, nation:brandNation[d.brand]||"自主", maker:d.maker,
       brand:d.brand, model:d.model, sales:d.sales, ytd:d.ytd, lastMonth:d.lastMonth,
       mom:d.mom, lastYear:d.lastYear, yoy:d.yoy,
       power:sp.power||"", price:sp.price||"", priceRange:getPriceRange(sp.price||""),
@@ -1192,22 +1090,18 @@ function buildAllData() {
   allDataCache.forEach(function(d,i){ d.rank = i + 1; });
 }
 
-// ==================== 车企排行渲染 ====================
-function renderMaker() {
-  var tb = document.querySelector("#tblMaker tbody");
-  tb.innerHTML = makerData.map(function(d){
-    return '<tr><td class="'+rankClass(d.rank)+'">'+d.rank+'</td><td class="brand-cell">'+d.maker+'</td><td class="num">'+fmtNum(d.sales)+'</td><td class="num">'+fmtNum(d.ytd)+'</td><td class="num">'+fmtNum(d.lastMonth)+'</td><td class="num '+pctClass(d.mom)+'">'+d.mom+'</td><td class="num">'+fmtNum(d.lastYear)+'</td><td class="num '+pctClass(d.yoy)+'">'+d.yoy+'</td></tr>';
-  }).join("");
-}
-
 function renderAllData() {
   var fc = document.getElementById("fltCat").value;
+  var fm = document.getElementById("fltMaker").value;
+  var fb = document.getElementById("fltBrand").value;
   var fn = document.getElementById("fltNation").value;
   var fp = document.getElementById("fltPrice").value;
   var fs = document.getElementById("fltSearch").value.toLowerCase();
 
   var filtered = allDataCache.filter(function(d){
     if (fc && d.cat !== fc) return false;
+    if (fm && d.maker !== fm) return false;
+    if (fb && d.brand !== fb) return false;
     if (fn && d.nation !== fn) return false;
     if (fp && d.priceRange !== fp) return false;
     if (fs) {
@@ -1281,11 +1175,21 @@ function exportCSV() {
 // ==================== 初始化 ====================
 buildAllData();
 renderOverview();
-renderBrand();
-renderMaker();
-renderModelTable("tblSedan", sedanData);
-renderModelTable("tblSuv", suvData);
-renderModelTable("tblMpv", mpvData);
+
+// 动态填充车企和品牌筛选下拉框
+(function(){
+  var makers = {}, brands = {};
+  allDataCache.forEach(function(d){
+    if (d.maker) makers[d.maker] = (makers[d.maker]||0) + d.sales;
+    if (d.brand) brands[d.brand] = (brands[d.brand]||0) + d.sales;
+  });
+  var makerList = Object.keys(makers).sort(function(a,b){ return makers[b]-makers[a]; });
+  var brandList = Object.keys(brands).sort(function(a,b){ return brands[b]-brands[a]; });
+  var selMaker = document.getElementById("fltMaker");
+  makerList.forEach(function(m){ var o=document.createElement("option"); o.value=m; o.textContent=m; selMaker.appendChild(o); });
+  var selBrand = document.getElementById("fltBrand");
+  brandList.forEach(function(b){ var o=document.createElement("option"); o.value=b; o.textContent=b; selBrand.appendChild(o); });
+})();
 </script>
 </body>
 </html>
