@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>IFlyauto前端经营数据看板 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1b2a;color:#e0e6ed;font-family:'Microsoft YaHei','PingFang SC',sans-serif;min-height:100vh}
+/* 登录遮罩 */
+#loginOverlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#0d1b2a;z-index:9999;display:flex;justify-content:center;align-items:center}
+#loginOverlay.hidden{display:none}
+.login-box{background:linear-gradient(135deg,rgba(20,40,80,0.8),rgba(15,30,60,0.95));border:1px solid rgba(100,160,255,0.2);border-radius:14px;padding:40px 36px;width:360px;text-align:center}
+.login-box h2{font-size:22px;letter-spacing:4px;background:linear-gradient(90deg,#00d4ff,#7b68ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.login-box .login-sub{color:#6b8299;font-size:12px;margin-bottom:28px}
+.login-box input{width:100%;padding:12px 16px;background:rgba(10,20,40,0.6);border:1px solid rgba(100,160,255,0.25);border-radius:8px;color:#e0e6ed;font-size:14px;outline:none;margin-bottom:16px;text-align:center;letter-spacing:2px}
+.login-box input:focus{border-color:#00d4ff}
+.login-box input::placeholder{color:#4a6a8a;letter-spacing:0}
+.login-box button{width:100%;padding:11px;background:linear-gradient(90deg,#00d4ff,#7b68ee);border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:2px;transition:opacity 0.2s}
+.login-box button:hover{opacity:0.85}
+.login-err{color:#ff5252;font-size:12px;margin-top:10px;min-height:18px}
+.header{text-align:center;padding:18px 0 10px;background:linear-gradient(135deg,#0d1b2a,#1b2a4a);position:relative}
+.header h1{font-size:28px;letter-spacing:6px;background:linear-gradient(90deg,#00d4ff,#7b68ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header .sub{font-size:13px;color:#6b8299;margin-top:4px}
+.month-sel{position:absolute;right:40px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px}
+.month-sel label{color:#8ba4c0;font-size:13px}
+.month-sel select{background:#1b2a4a;color:#00d4ff;border:1px solid rgba(100,160,255,0.3);border-radius:6px;padding:6px 12px;font-size:14px;cursor:pointer;outline:none}
+.month-sel select:hover{border-color:#00d4ff}
+.container{max-width:1600px;margin:0 auto;padding:10px 20px 30px}
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:16px}
+.kpi-card{background:linear-gradient(135deg,rgba(30,60,114,0.6),rgba(42,82,152,0.3));border:1px solid rgba(100,160,255,0.15);border-radius:10px;padding:16px 14px;text-align:center;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00d4ff,#7b68ee);border-radius:10px 10px 0 0}
+.kpi-label{font-size:12px;color:#8ba4c0;margin-bottom:6px}
+.kpi-value{font-size:24px;font-weight:700;color:#00d4ff}
+.kpi-value.warn{color:#ffa726}
+.kpi-sub{font-size:11px;color:#6b8299;margin-top:4px}
+.kpi-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:8px;overflow:hidden}
+.kpi-bar-fill{height:100%;border-radius:2px;transition:width 0.8s ease}
+.chart-row{display:grid;gap:14px;margin-bottom:14px}
+.row2{grid-template-columns:1fr 1fr}
+.row3{grid-template-columns:1fr 1fr 1fr}
+.chart-box{background:linear-gradient(135deg,rgba(20,40,80,0.5),rgba(15,30,60,0.8));border:1px solid rgba(100,160,255,0.1);border-radius:10px;padding:14px;min-height:360px;position:relative}
+.title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.title-row .title{font-size:14px;font-weight:600;color:#a0c4ff;padding-left:10px;border-left:3px solid #00d4ff;margin:0}
+.chart-box>.title{font-size:14px;font-weight:600;color:#a0c4ff;margin-bottom:8px;padding-left:10px;border-left:3px solid #00d4ff}
+.btn-more{background:none;border:1px solid rgba(100,160,255,0.3);color:#8ba4c0;font-size:12px;padding:3px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s}
+.btn-more:hover{border-color:#00d4ff;color:#00d4ff}
+.chart{width:100%;height:320px}
+.chart.tall{height:400px}
+.chart.gauge-grid{height:440px}
+.no-data{display:flex;align-items:center;justify-content:center;height:300px;color:#4a6a8a;font-size:16px}
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:1000;justify-content:center;align-items:center}
+.modal-overlay.active{display:flex}
+.modal{background:#132238;border:1px solid rgba(100,160,255,0.2);border-radius:12px;padding:24px;max-width:700px;width:90%;max-height:80vh;overflow-y:auto;position:relative}
+.modal h3{color:#a0c4ff;font-size:16px;margin-bottom:16px;padding-left:10px;border-left:3px solid #00d4ff}
+.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:#6b8299;font-size:20px;cursor:pointer}
+.modal-close:hover{color:#00d4ff}
+.modal table{width:100%;border-collapse:collapse}
+.modal th,.modal td{padding:8px 12px;text-align:left;border-bottom:1px solid rgba(100,160,255,0.1);font-size:13px}
+.modal th{color:#8ba4c0;font-weight:600}
+.modal td{color:#e0e6ed}
+.modal tr:hover td{background:rgba(0,212,255,0.05)}
+.modal .rank{color:#00d4ff;font-weight:700;width:36px}
+</style>
+</head>
+<body>
+<!-- 登录验证 -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <h2>IFlyauto</h2>
+    <div class="login-sub">前端经营数据看板 - 请输入访问密码</div>
+    <input type="password" id="loginPwd" placeholder="请输入密码" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">进 入</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+<div class="header">
+  <h1>IFlyauto 前端经营数据看板</h1>
+  <div class="sub" id="subTitle">数据截至 2026年1月 | 单位：万元</div>
+  <div class="month-sel">
+    <label>选择月份</label>
+    <select id="monthSelect" onchange="switchMonth(+this.value)">
+      <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+      <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+      <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+      <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+    </select>
+  </div>
+</div>
+<div class="container">
+  <!-- KPI Cards -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label" id="kpiRevLabel">2026年收入（1月累计）</div>
+      <div class="kpi-value" id="kpiRevVal">-</div>
+      <div class="kpi-sub" id="kpiRevTarget">年度目标 160,156 万</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" id="kpiRevBar" style="background:linear-gradient(90deg,#00d4ff,#7b68ee)"></div></div>
+      <div class="kpi-sub" id="kpiRevRate">完成率 -</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label" id="kpiProfitLabel">2026年毛利（1月累计）</div>
+      <div class="kpi-value" id="kpiProfitVal">-</div>
+      <div class="kpi-sub" id="kpiProfitTarget">年度目标 101,009 万</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" id="kpiProfitBar" style="background:linear-gradient(90deg,#00d4ff,#7b68ee)"></div></div>
+      <div class="kpi-sub" id="kpiProfitRate">完成率 -</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label" id="kpiSettleLabel">2026年结算量（1月累计）</div>
+      <div class="kpi-value" id="kpiSettleVal">-</div>
+      <div class="kpi-sub" id="kpiSettleTarget">年度目标 1,282 万</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" id="kpiSettleBar" style="background:linear-gradient(90deg,#00d4ff,#7b68ee)"></div></div>
+      <div class="kpi-sub" id="kpiSettleRate">完成率 -</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label" id="kpiBdLabel">2026年已定点BD（1月累计）</div>
+      <div class="kpi-value" id="kpiBdVal">-</div>
+      <div class="kpi-sub" id="kpiBdTarget">年度目标 480,900 万</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" id="kpiBdBar" style="background:linear-gradient(90deg,#ffa726,#ff7043)"></div></div>
+      <div class="kpi-sub" id="kpiBdRate">完成率 -</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label" id="kpiReserveLabel">26年BD收入储备</div>
+      <div class="kpi-value warn" id="kpiReserveVal">-</div>
+      <div class="kpi-sub" id="kpiReserveSub">全年定点商机 - 万</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" id="kpiReserveBar" style="background:linear-gradient(90deg,#ffa726,#ff7043)"></div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">时间进度</div>
+      <div class="kpi-value" id="kpiTimeVal" style="color:#7b68ee">-</div>
+      <div class="kpi-sub" id="kpiTimeSub">2026年 -/12 月</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" id="kpiTimeBar" style="background:linear-gradient(90deg,#7b68ee,#a78bfa)"></div></div>
+    </div>
+  </div>
+
+  <!-- TOP10 charts -->
+  <div class="chart-row row2">
+    <div class="chart-box">
+      <div class="title-row">
+        <div class="title" id="titleBD">1月新增定点商机TOP10排行榜（收入）</div>
+        <button class="btn-more" onclick="showModal('bd')">更多</button>
+      </div>
+      <div id="chartBD" class="chart"></div>
+    </div>
+    <div class="chart-box">
+      <div class="title-row">
+        <div class="title" id="titleClient">1月客户收入排行榜TOP10</div>
+        <button class="btn-more" onclick="showModal('client')">更多</button>
+      </div>
+      <div id="chartClient" class="chart"></div>
+    </div>
+  </div>
+
+  <!-- 大区完成率 (收入/毛利/BD 三个仪表盘) -->
+  <div class="chart-row row3">
+    <div class="chart-box">
+      <div class="title" id="titleRevGauge">各大区2026年年度收入目标完成率</div>
+      <div id="chartRevGauge" class="chart gauge-grid"></div>
+    </div>
+    <div class="chart-box">
+      <div class="title" id="titleProfitGauge">各大区2026年年度毛利目标完成率</div>
+      <div id="chartProfitGauge" class="chart gauge-grid"></div>
+    </div>
+    <div class="chart-box">
+      <div class="title" id="titleBDGauge">各大区2026年年度BD收入目标完成率</div>
+      <div id="chartBDGauge" class="chart gauge-grid"></div>
+    </div>
+  </div>
+
+  <!-- 商务业绩 + 储备分布 -->
+  <div class="chart-row row2">
+    <div class="chart-box">
+      <div class="title-row">
+        <div class="title" id="titleBizTop">商务2026年业绩TOP10排行榜（累计）</div>
+        <button class="btn-more" onclick="showModal('biz')">更多</button>
+      </div>
+      <div id="chartBizTop" class="chart tall"></div>
+    </div>
+    <div class="chart-box">
+      <div class="title" id="titleReserve">各大区2026年商机储备收入分布情况</div>
+      <div id="chartReserve" class="chart tall"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h3 id="modalTitle">详细数据</h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ===================== 密码验证 =====================
+// 修改此处设置访问密码（可设置多个）
+const ACCESS_KEYS = ['ifly2026', 'iflyauto'];
+const AUTH_KEY = 'ifly_dash_auth';
+const AUTH_EXPIRE = 7 * 24 * 3600 * 1000; // 7天免登录
+
+function doLogin() {
+  const pwd = document.getElementById('loginPwd').value.trim();
+  if (ACCESS_KEYS.indexOf(pwd) >= 0) {
+    localStorage.setItem(AUTH_KEY, Date.now().toString());
+    document.getElementById('loginOverlay').classList.add('hidden');
+    document.getElementById('loginErr').textContent = '';
+  } else {
+    document.getElementById('loginErr').textContent = '\u5bc6\u7801\u9519\u8bef\uff0c\u8bf7\u91cd\u8bd5';
+    document.getElementById('loginPwd').value = '';
+    document.getElementById('loginPwd').focus();
+  }
+}
+
+// 检查是否已登录（7天内免重复输入）
+(function checkAuth() {
+  const ts = localStorage.getItem(AUTH_KEY);
+  if (ts && (Date.now() - parseInt(ts)) < AUTH_EXPIRE) {
+    document.getElementById('loginOverlay').classList.add('hidden');
+  } else {
+    localStorage.removeItem(AUTH_KEY);
+    setTimeout(function(){ document.getElementById('loginPwd').focus(); }, 100);
+  }
+})();
+
+// ===================== 数据配置区 =====================
+const ANNUAL = {
+  revTarget: 160156, profitTarget: 101009, settleTarget: 1282, bdTarget: 480900
+};
+
+const DATA = {
+  1: {
+    cum: { rev: 10698.62, profit: 6118.85, settle: 103.24, bd: 6133.35, bdReserve: 40900, bdTotal: 3134 },
+    // 当月定点商机（可超过10条，图表只显示TOP10，更多弹窗显示全部）
+    bdTop10: [
+      {name:'B', val:1154.65}, {name:'A', val:953.07},
+      {name:'D', val:688.96},  {name:'C', val:336.67},
+      {name:'E', val:0}, {name:'E', val:0}, {name:'E', val:0},
+      {name:'E', val:0}, {name:'E', val:0}, {name:'E', val:0}
+    ],
+    // 当月客户收入（可超过10条）
+    clientTop10: [
+      {name:'A', val:2851.99}, {name:'B', val:1841.22},
+      {name:'C', val:540.35},  {name:'D', val:288.54},
+      {name:'E', val:246.09},  {name:'F', val:229.76},
+      {name:'G', val:199.96},  {name:'H', val:178.82},
+      {name:'I', val:75.85},   {name:'J', val:74.69}
+    ],
+    // 大区收入完成：rate(%), val(完成额)
+    regionRev: [
+      {name:'\u534e\u4e1c', rate:5.4, val:2182.50},
+      {name:'\u5357\u65b9', rate:1.8, val:367.65},
+      {name:'QR', rate:4.4, val:2851.99},
+      {name:'\u897f\u90e8', rate:2.2, val:315.64},
+      {name:'\u5317\u65b9', rate:3.1, val:437.09},
+      {name:'XH', rate:9.3, val:540.35}
+    ],
+    // 大区毛利完成：rate(%), val(完成额)
+    regionProfit: [
+      {name:'\u534e\u4e1c', rate:4.1, val:767.67},
+      {name:'\u5357\u65b9', rate:1.5, val:273.20},
+      {name:'QR', rate:2.9, val:1041.73},
+      {name:'\u897f\u90e8', rate:2.3, val:269.68},
+      {name:'\u5317\u65b9', rate:3.3, val:430.59},
+      {name:'XH', rate:7.7, val:332.59}
+    ],
+    // 大区BD收入完成
+    regionBD: [
+      {name:'\u534e\u4e1c', target:120000, actual:0},
+      {name:'\u5357\u65b9', target:70000, actual:0},
+      {name:'QR', target:200000, actual:1979},
+      {name:'\u897f\u90e8', target:47000, actual:0},
+      {name:'\u5317\u65b9', target:35000, actual:1155},
+      {name:'XH', target:7900, actual:0}
+    ],
+    // 商务业绩（可超过10条，按收入降序）
+    bizTop: [
+      {name:'\u9646\u91d1\u5175', rev:2668.23, profit:932.58},
+      {name:'\u8ba1\u5065\u79cb', rev:1841.22, profit:597.47},
+      {name:'\u6c64\u658c\u6770', rev:336.56, profit:332.57},
+      {name:'\u90d1\u6657', rev:245.52, profit:151.07},
+      {name:'\u8d75\u6df3\u81e3', rev:234.54, profit:64.45},
+      {name:'\u6602\u9e4f', rev:229.76, profit:229.76},
+      {name:'\u5176\u4ed6', rev:214.27, profit:10.50},
+      {name:'\u9ec4\u6e90', rev:191.26, profit:152.19},
+      {name:'\u9648\u96e8', rev:183.28, profit:108.66},
+      {name:'\u738b\u5b8f\u91ce', rev:175.45, profit:169.88},
+      {name:'\u9646\u52e4\u4fee', rev:102.69, profit:101.71},
+      {name:'\u674e\u8def', rev:99.57, profit:96.09},
+      {name:'\u674e\u7acb\u51ef', rev:44.46, profit:44.46}
+    ],
+    // 商机储备收入分布
+    reserve: [
+      {name:'\u5317\u65b9\u5927\u533a', s:0, a:8500, b:19947.1, c:6552.9},
+      {name:'\u534e\u4e1c\u5927\u533a', s:58725, a:30200, b:28845, c:2230},
+      {name:'\u5357\u65b9\u5927\u533a', s:14000, a:26000, b:21560.5, c:8439.5},
+      {name:'\u5947\u745e\u5ba2\u6237\u7fa4', s:73645, a:59260, b:42665, c:24430},
+      {name:'\u897f\u90e8\u5927\u533a', s:0, a:20500, b:21720, c:4780},
+      {name:'\u661f\u6cb3\u516c\u53f8', s:0, a:0, b:5409, c:2491},
+      {name:'\u5546\u52a1\u90e8\u516c\u5171', s:0, a:0, b:0, c:0}
+    ]
+  }
+};
+
+// ===================== 工具函数 =====================
+const darkText = '#8ba4c0';
+const axisStyle = {axisLine:{lineStyle:{color:'#2a4a6b'}},axisLabel:{color:darkText,fontSize:11},splitLine:{lineStyle:{color:'rgba(100,160,255,0.08)'}}};
+const fmtN = v => v.toLocaleString('zh',{maximumFractionDigits:0});
+const monthNames = ['','1\u6708','2\u6708','3\u6708','4\u6708','5\u6708','6\u6708','7\u6708','8\u6708','9\u6708','10\u6708','11\u6708','12\u6708'];
+const cumLabel = m => m === 1 ? '1\u6708' : '1-'+m+'\u6708\u7d2f\u8ba1';
+
+const charts = {};
+function getChart(id) {
+  if (!charts[id]) charts[id] = echarts.init(document.getElementById(id));
+  return charts[id];
+}
+
+// ===================== KPI =====================
+function renderKPI(month, d) {
+  const c = d.cum;
+  const revRate = (c.rev / ANNUAL.revTarget * 100);
+  const profitRate = (c.profit / ANNUAL.profitTarget * 100);
+  const settleRate = (c.settle / ANNUAL.settleTarget * 100);
+  const bdRate = (c.bd / ANNUAL.bdTarget * 100);
+  const timeRate = (month / 12 * 100);
+  const cl = cumLabel(month);
+
+  document.getElementById('subTitle').textContent = '\u6570\u636e\u622a\u81f3 2026\u5e74' + monthNames[month] + ' | \u5355\u4f4d\uff1a\u4e07\u5143';
+
+  document.getElementById('kpiRevLabel').textContent = '2026\u5e74\u6536\u5165\uff08' + cl + '\uff09';
+  document.getElementById('kpiRevVal').textContent = fmtN(Math.round(c.rev));
+  document.getElementById('kpiRevBar').style.width = revRate.toFixed(1) + '%';
+  document.getElementById('kpiRevRate').textContent = '\u5b8c\u6210\u7387 ' + revRate.toFixed(1) + '%';
+
+  document.getElementById('kpiProfitLabel').textContent = '2026\u5e74\u6bdb\u5229\uff08' + cl + '\uff09';
+  document.getElementById('kpiProfitVal').textContent = fmtN(Math.round(c.profit));
+  document.getElementById('kpiProfitBar').style.width = profitRate.toFixed(1) + '%';
+  document.getElementById('kpiProfitRate').textContent = '\u5b8c\u6210\u7387 ' + profitRate.toFixed(1) + '%';
+
+  document.getElementById('kpiSettleLabel').textContent = '2026\u5e74\u7ed3\u7b97\u91cf\uff08' + cl + '\uff09';
+  document.getElementById('kpiSettleVal').textContent = c.settle.toFixed(1);
+  document.getElementById('kpiSettleBar').style.width = settleRate.toFixed(1) + '%';
+  document.getElementById('kpiSettleRate').textContent = '\u5b8c\u6210\u7387 ' + settleRate.toFixed(1) + '%';
+
+  document.getElementById('kpiBdLabel').textContent = '2026\u5e74\u5df2\u5b9a\u70b9BD\uff08' + cl + '\uff09';
+  document.getElementById('kpiBdVal').textContent = fmtN(Math.round(c.bd));
+  document.getElementById('kpiBdBar').style.width = Math.min(bdRate, 100).toFixed(1) + '%';
+  document.getElementById('kpiBdRate').textContent = '\u5b8c\u6210\u7387 ' + bdRate.toFixed(1) + '%';
+
+  document.getElementById('kpiReserveVal').textContent = fmtN(Math.round(c.bdReserve));
+  document.getElementById('kpiReserveSub').textContent = '\u5168\u5e74\u5b9a\u70b9\u5546\u673a ' + fmtN(c.bdTotal) + ' \u4e07';
+  const reserveRate = c.bdReserve > 0 ? (c.bdReserve / ANNUAL.bdTarget * 100) : 0;
+  document.getElementById('kpiReserveBar').style.width = Math.min(reserveRate, 100).toFixed(1) + '%';
+
+  document.getElementById('kpiTimeVal').textContent = timeRate.toFixed(1) + '%';
+  document.getElementById('kpiTimeSub').textContent = '2026\u5e74 ' + month + '/12 \u6708';
+  document.getElementById('kpiTimeBar').style.width = timeRate.toFixed(1) + '%';
+}
+
+// ===================== TOP10 条形图 =====================
+function renderBDTop10(month, d) {
+  document.getElementById('titleBD').textContent = monthNames[month] + '\u65b0\u589e\u5b9a\u70b9\u5546\u673aTOP10\u6392\u884c\u699c\uff08\u6536\u5165\uff09';
+  const items = d.bdTop10.slice(0, 10).sort((a,b) => a.val - b.val);
+  const chart = getChart('chartBD');
+  chart.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:p=>p[0].name+'<br/>\u6536\u5165: <b>'+p[0].value.toFixed(1)+'</b> \u4e07'},
+    grid:{left:50,right:60,top:10,bottom:30},
+    xAxis:{type:'value',...axisStyle},
+    yAxis:{type:'category',data:items.map(i=>i.name),...axisStyle,axisLabel:{color:darkText,fontSize:12}},
+    series:[{
+      type:'bar',data:items.map(i=>i.val),barWidth:16,
+      itemStyle:{borderRadius:[0,4,4,0],color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#1e60a0'},{offset:1,color:'#00d4ff'}])},
+      label:{show:true,position:'right',color:'#00d4ff',fontSize:11,formatter:p=>p.value>0?p.value.toFixed(1):''}
+    }]
+  }, true);
+}
+
+function renderClientTop10(month, d) {
+  document.getElementById('titleClient').textContent = monthNames[month] + '\u5ba2\u6237\u6536\u5165\u6392\u884c\u699cTOP10';
+  const items = d.clientTop10.slice(0, 10).sort((a,b) => a.val - b.val);
+  const chart = getChart('chartClient');
+  chart.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:p=>p[0].name+'<br/>\u6536\u5165: <b>'+p[0].value.toFixed(1)+'</b> \u4e07'},
+    grid:{left:50,right:80,top:10,bottom:30},
+    xAxis:{type:'value',...axisStyle},
+    yAxis:{type:'category',data:items.map(i=>i.name),...axisStyle,axisLabel:{color:darkText,fontSize:12}},
+    series:[{
+      type:'bar',data:items.map(i=>i.val),barWidth:16,
+      itemStyle:{borderRadius:[0,4,4,0],color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#4a148c'},{offset:1,color:'#7b68ee'}])},
+      label:{show:true,position:'right',color:'#a78bfa',fontSize:11,formatter:p=>p.value.toFixed(1)}
+    }]
+  }, true);
+}
+
+// ===================== 仪表盘（含完成值+完成率）=====================
+function renderGaugeGrid(chartId, items, accentColor) {
+  const chart = getChart(chartId);
+  const el = document.getElementById(chartId);
+  const w = el.offsetWidth;
+  const h = el.offsetHeight;
+  const cols = 3, rows = 2;
+  const cellW = w / cols;
+  const cellH = h / rows;
+  const r = Math.min(cellW, cellH) * 0.38;
+  const fs = Math.max(10, r * 0.16);
+
+  chart.setOption({
+    series: items.map((item, i) => {
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+      const cx = cellW * col + cellW / 2;
+      const cy = cellH * row + cellH / 2;
+      return {
+        type: 'gauge',
+        center: [cx, cy],
+        radius: r,
+        startAngle: 220, endAngle: -40,
+        min: 0, max: 100,
+        axisLine: {lineStyle: {width: Math.max(8, r * 0.15), color: [[item.rate / 100, accentColor], [1, 'rgba(100,160,255,0.12)']]}},
+        axisTick: {show: false}, axisLabel: {show: false}, splitLine: {show: false},
+        pointer: {show: false},
+        title: {show: true, offsetCenter: [0, '75%'], fontSize: fs, color: darkText},
+        detail: {
+          show: true, offsetCenter: [0, '20%'],
+          fontSize: Math.max(12, r * 0.18), fontWeight: 'bold', color: accentColor,
+          formatter: function() {
+            return item.rate.toFixed(1) + '%\n{val|' + fmtN(Math.round(item.val)) + '}';
+          },
+          rich: {
+            val: { fontSize: Math.max(10, r * 0.14), color: '#e0e6ed', lineHeight: Math.max(16, r * 0.22) }
+          }
+        },
+        data: [{value: item.rate, name: item.name}]
+      };
+    })
+  }, true);
+}
+
+function renderRevGauge(month, d) {
+  document.getElementById('titleRevGauge').textContent = '\u5404\u5927\u533a2026\u5e74\u5e74\u5ea6\u6536\u5165\u76ee\u6807\u5b8c\u6210\u7387\uff08' + cumLabel(month) + '\uff09';
+  renderGaugeGrid('chartRevGauge', d.regionRev, '#00d4ff');
+}
+
+function renderProfitGauge(month, d) {
+  document.getElementById('titleProfitGauge').textContent = '\u5404\u5927\u533a2026\u5e74\u5e74\u5ea6\u6bdb\u5229\u76ee\u6807\u5b8c\u6210\u7387\uff08' + cumLabel(month) + '\uff09';
+  renderGaugeGrid('chartProfitGauge', d.regionProfit, '#7b68ee');
+}
+
+function renderBDGauge(month, d) {
+  document.getElementById('titleBDGauge').textContent = '\u5404\u5927\u533a2026\u5e74\u5e74\u5ea6BD\u6536\u5165\u76ee\u6807\u5b8c\u6210\u7387\uff08' + cumLabel(month) + '\uff09';
+  const items = d.regionBD.map(i => ({
+    name: i.name,
+    rate: i.target > 0 ? (i.actual / i.target * 100) : 0,
+    val: i.actual
+  }));
+  renderGaugeGrid('chartBDGauge', items, '#ffa726');
+}
+
+// ===================== 商务业绩TOP10 =====================
+function renderBizTop(month, d) {
+  document.getElementById('titleBizTop').textContent = '\u5546\u52a12026\u5e74\u4e1a\u7ee9TOP10\u6392\u884c\u699c\uff08' + cumLabel(month) + '\uff09';
+  const items = d.bizTop.slice(0, 10).sort((a,b) => a.rev - b.rev);
+  const chart = getChart('chartBizTop');
+  chart.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+    legend:{data:['\u6536\u5165','\u6bdb\u5229'],textStyle:{color:darkText},top:0,right:10},
+    grid:{left:70,right:30,top:30,bottom:30},
+    xAxis:{type:'value',...axisStyle},
+    yAxis:{type:'category',data:items.map(i=>i.name),...axisStyle,axisLabel:{fontSize:11,color:darkText}},
+    series:[
+      {name:'\u6536\u5165',type:'bar',data:items.map(i=>i.rev),barWidth:10,itemStyle:{borderRadius:[0,3,3,0],color:'#00d4ff'}},
+      {name:'\u6bdb\u5229',type:'bar',data:items.map(i=>i.profit),barWidth:10,itemStyle:{borderRadius:[0,3,3,0],color:'#7b68ee'}}
+    ]
+  }, true);
+}
+
+// ===================== 商机储备 =====================
+function renderReserve(month, d) {
+  document.getElementById('titleReserve').textContent = '\u5404\u5927\u533a2026\u5e74\u5546\u673a\u50a8\u5907\u6536\u5165\u5206\u5e03\u60c5\u51b5\uff08' + cumLabel(month) + '\uff09';
+  const items = d.reserve;
+  const chart = getChart('chartReserve');
+  chart.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){
+      let s = p[0].name+'<br/>'; let total = 0;
+      p.forEach(item=>{s+=item.marker+item.seriesName+': '+item.value.toFixed(0)+'\u4e07<br/>';total+=item.value;});
+      s+='<b>\u5408\u8ba1: '+total.toFixed(0)+'\u4e07</b>'; return s;
+    }},
+    legend:{data:['S\u7ea7','A\u7ea7','B\u7ea7','C\u7ea7'],textStyle:{color:darkText},top:0},
+    grid:{left:80,right:30,top:35,bottom:40},
+    xAxis:{type:'value',...axisStyle,axisLabel:{formatter:v=>(v/10000).toFixed(0)+'\u4e07'}},
+    yAxis:{type:'category',data:items.map(i=>i.name),...axisStyle,axisLabel:{fontSize:11,color:darkText}},
+    series:[
+      {name:'S\u7ea7',type:'bar',stack:'total',data:items.map(i=>i.s),barWidth:18,itemStyle:{color:'#ff5252'}},
+      {name:'A\u7ea7',type:'bar',stack:'total',data:items.map(i=>i.a),barWidth:18,itemStyle:{color:'#ffa726'}},
+      {name:'B\u7ea7',type:'bar',stack:'total',data:items.map(i=>i.b),barWidth:18,itemStyle:{color:'#29b6f6'}},
+      {name:'C\u7ea7',type:'bar',stack:'total',data:items.map(i=>i.c),barWidth:18,itemStyle:{color:'#66bb6a'}}
+    ]
+  }, true);
+}
+
+// ===================== 更多弹窗 =====================
+function showModal(type) {
+  const d = DATA[currentMonth];
+  if (!d) return;
+  const overlay = document.getElementById('modalOverlay');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+  let html = '';
+
+  if (type === 'bd') {
+    title.textContent = monthNames[currentMonth] + '\u65b0\u589e\u5b9a\u70b9\u5546\u673a\u6392\u884c\u699c\uff08\u5168\u90e8\uff09';
+    const items = d.bdTop10.slice().sort((a,b) => b.val - a.val);
+    html = '<table><tr><th>\u6392\u540d</th><th>\u5ba2\u6237</th><th>\u6536\u5165(\u4e07)</th></tr>';
+    items.forEach((item, i) => {
+      html += '<tr><td class="rank">' + (i+1) + '</td><td>' + item.name + '</td><td>' + item.val.toFixed(1) + '</td></tr>';
+    });
+    html += '</table>';
+  } else if (type === 'client') {
+    title.textContent = monthNames[currentMonth] + '\u5ba2\u6237\u6536\u5165\u6392\u884c\u699c\uff08\u5168\u90e8\uff09';
+    const items = d.clientTop10.slice().sort((a,b) => b.val - a.val);
+    html = '<table><tr><th>\u6392\u540d</th><th>\u5ba2\u6237</th><th>\u6536\u5165(\u4e07)</th></tr>';
+    items.forEach((item, i) => {
+      html += '<tr><td class="rank">' + (i+1) + '</td><td>' + item.name + '</td><td>' + item.val.toFixed(1) + '</td></tr>';
+    });
+    html += '</table>';
+  } else if (type === 'biz') {
+    title.textContent = '\u5546\u52a1\u4e1a\u7ee9\u6392\u884c\u699c\uff08\u5168\u90e8\uff0c' + cumLabel(currentMonth) + '\uff09';
+    const items = d.bizTop.slice().sort((a,b) => b.rev - a.rev);
+    html = '<table><tr><th>\u6392\u540d</th><th>\u5ba2\u6237\u7ecf\u7406</th><th>\u6536\u5165(\u4e07)</th><th>\u6bdb\u5229(\u4e07)</th></tr>';
+    items.forEach((item, i) => {
+      html += '<tr><td class="rank">' + (i+1) + '</td><td>' + item.name + '</td><td>' + item.rev.toFixed(1) + '</td><td>' + item.profit.toFixed(1) + '</td></tr>';
+    });
+    html += '</table>';
+  }
+
+  body.innerHTML = html;
+  overlay.classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+
+// ===================== 无数据 =====================
+function showNoData() {
+  ['chartBD','chartClient','chartRevGauge','chartProfitGauge','chartBizTop','chartBDGauge','chartReserve'].forEach(id => {
+    const el = document.getElementById(id);
+    const inst = echarts.getInstanceByDom(el);
+    if (inst) inst.dispose();
+    delete charts[id];
+    el.innerHTML = '<div class="no-data">\u6682\u65e0\u6570\u636e</div>';
+  });
+}
+
+function clearNoData() {
+  ['chartBD','chartClient','chartRevGauge','chartProfitGauge','chartBizTop','chartBDGauge','chartReserve'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el.querySelector('.no-data')) el.innerHTML = '';
+  });
+}
+
+// ===================== 月份切换 =====================
+let currentMonth = 1;
+
+function switchMonth(month) {
+  currentMonth = month;
+  const d = DATA[month];
+  if (!d) {
+    document.getElementById('subTitle').textContent = '2026\u5e74' + monthNames[month] + ' \u6682\u65e0\u6570\u636e | \u5355\u4f4d\uff1a\u4e07\u5143';
+    ['kpiRevVal','kpiProfitVal','kpiSettleVal','kpiBdVal','kpiReserveVal'].forEach(id => {
+      document.getElementById(id).textContent = '-';
+    });
+    const timeRate = (month / 12 * 100);
+    document.getElementById('kpiTimeVal').textContent = timeRate.toFixed(1) + '%';
+    document.getElementById('kpiTimeSub').textContent = '2026\u5e74 ' + month + '/12 \u6708';
+    document.getElementById('kpiTimeBar').style.width = timeRate.toFixed(1) + '%';
+    showNoData();
+    return;
+  }
+  clearNoData();
+  renderKPI(month, d);
+  renderBDTop10(month, d);
+  renderClientTop10(month, d);
+  renderRevGauge(month, d);
+  renderProfitGauge(month, d);
+  renderBDGauge(month, d);
+  renderBizTop(month, d);
+  renderReserve(month, d);
+}
+
+// ===================== 初始化 =====================
+switchMonth(1);
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    Object.values(charts).forEach(c => c.resize());
+    const d = DATA[currentMonth];
+    if (d) {
+      renderRevGauge(currentMonth, d);
+      renderProfitGauge(currentMonth, d);
+      renderBDGauge(currentMonth, d);
+    }
+  }, 200);
+});
+</script>
+</body>
+</html>
