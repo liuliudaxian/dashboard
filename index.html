@@ -350,7 +350,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
         <div id="chartNevMonthly" class="chart-container"></div>
       </div>
       <div class="module-card">
-        <div class="chart-title">2026年1-2月新能源车企销量排行榜（TOP10）</div>
+        <div class="chart-title">2026年2月新能源车企销量排行榜（TOP10）</div>
         <div id="chart6" class="chart-container"></div>
       </div>
     </div>
@@ -405,12 +405,19 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
     <div class="module-grid cols-2" style="margin-top:14px;">
       <div class="module-card">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
-          <div class="chart-title" style="margin-bottom:0;">2026年1-2月品牌销量排行榜</div>
-          <select id="brandCatSelect" onchange="filterBrandByCat(this.value)" style="background:#0d1b2a;color:#b0bec5;border:1px solid #1e3a5f;border-radius:5px;padding:5px 10px;font-size:12px;cursor:pointer;outline:none;">
-            <option value="all">全部 (TOP15)</option>
-            <option value="自主">自主品牌</option>
-            <option value="合资">合资品牌</option>
-          </select>
+          <div class="chart-title" style="margin-bottom:0;">2026年品牌销量排行榜</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <select id="brandMonthSelect" onchange="filterBrandByCat(document.getElementById('brandCatSelect').value)" style="background:#0d1b2a;color:#b0bec5;border:1px solid #1e3a5f;border-radius:5px;padding:5px 10px;font-size:12px;cursor:pointer;outline:none;">
+              <option value="1月">1月</option>
+              <option value="2月" selected>2月</option>
+              <option value="1-2月">1-2月累计</option>
+            </select>
+            <select id="brandCatSelect" onchange="filterBrandByCat(this.value)" style="background:#0d1b2a;color:#b0bec5;border:1px solid #1e3a5f;border-radius:5px;padding:5px 10px;font-size:12px;cursor:pointer;outline:none;">
+              <option value="all">全部 (TOP15)</option>
+              <option value="自主">自主品牌</option>
+              <option value="合资">合资品牌</option>
+            </select>
+          </div>
         </div>
         <div id="chartBrandRank" class="chart-container" style="height:460px;"></div>
       </div>
@@ -607,34 +614,39 @@ c5.setOption({
 
 // ============ Chart 6: 新能源车企销量排行榜 ============
 const c6 = makeChart('chart6');
-const nevBrandNames = ['上汽通用五菱','理想汽车','上汽乘用车','零跑汽车','小米汽车','赛力斯','奇瑞汽车','特斯拉汽车','吉利汽车','比亚迪汽车'];
-const nevBrandSalesJan = [2.8,2.8,3.2,3.2,3.9,4.0,4.1,6.9,13.1,20.6];
-const nevBrandYoyJan = [-23.08,-7.55,356.01,27.37,70.34,145.00,-22.75,9.32,3.92,-30.67];
+const nevNames = ['蔚来汽车','上汽乘用车','奇瑞汽车','理想汽车','上汽通用五菱','零跑汽车','长安汽车','特斯拉汽车','吉利汽车','比亚迪汽车'];
+const nevFeb = [2.1,2.3,2.6,2.6,2.7,2.8,3.2,5.9,12.2,18.8];
+const nevCum = [4.8,5.5,6.7,5.4,5.4,6.0,5.8,12.8,25.4,39.3];
+const nevYoy = [57.65,171.76,-34.05,0.60,-51.49,10.99,-4.00,90.95,18.44,-41.00];
 c6.setOption({
   tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: function(params) {
     const idx = params[0].dataIndex;
-    let s = nevBrandNames[idx];
+    let s = nevNames[idx];
     params.forEach(p => { s += '<br/>' + p.seriesName + ': ' + p.value + '万'; });
+    s += '<br/>2月同比: ' + (nevYoy[idx]>=0?'+':'') + nevYoy[idx] + '%';
     return s;
   }},
-  legend: { data: ['1月'], textStyle: { color: '#78909c', fontSize: 11 }, top: 0 },
+  legend: { data: ['2月','1-2月累计'], textStyle: { color: '#78909c', fontSize: 11 }, top: 0 },
   grid: { left: 100, right: 90, bottom: 20, top: 30 },
   xAxis: { type: 'value', axisLabel: { color: '#78909c', formatter: v => v + '万' }, splitLine: darkTheme.splitLine },
-  yAxis: { type: 'category', data: nevBrandNames, axisLabel: { color: '#b0bec5', fontSize: 11 }, axisLine: darkTheme.axisLine },
+  yAxis: { type: 'category', data: nevNames, axisLabel: { color: '#b0bec5', fontSize: 11 }, axisLine: darkTheme.axisLine },
   series: [{
-    name: '1月', type: 'bar', data: nevBrandSalesJan.map((v,i) => ({
+    name: '2月', type: 'bar', data: nevFeb.map((v,i) => ({
       value: v,
-      itemStyle: { color: nevBrandYoyJan[i]>=0 ?
+      itemStyle: { color: nevYoy[i]>=0 ?
         new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#00695c'},{offset:1,color:'#26c6da'}]) :
         new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#c62828'},{offset:1,color:'#ef5350'}])
       }
     })),
-    barMaxWidth: 18,
-    label: { show: true, position: 'right', color: '#b0bec5', fontSize: 10, formatter: p => {
-      const idx = p.dataIndex;
-      const g = nevBrandYoyJan[idx];
-      return p.value.toFixed(1) + '万 (' + (g>=0?'+':'') + g + '%)';
-    }}
+    barMaxWidth: 14,
+    label: { show: true, position: 'right', color: '#b0bec5', fontSize: 10, formatter: p => p.value.toFixed(1) + '万' }
+  },{
+    name: '1-2月累计', type: 'bar', data: nevCum.map(v => ({
+      value: v,
+      itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#1565c0'},{offset:1,color:'#4fc3f7'}]) }
+    })),
+    barMaxWidth: 14,
+    label: { show: true, position: 'right', color: '#90caf9', fontSize: 10, formatter: p => p.value.toFixed(1) + '万' }
   }]
 });
 
@@ -796,93 +808,141 @@ c13.setOption({
   ]
 });
 
-// ============ Brand Ranking: 2026年1-2月品牌销量排行榜（自主+合资） ============
-const brandData = [
-  // 自主品牌 TOP50
-  {name:'吉利',cat:'自主',sales:177922,yoy:10.85},
-  {name:'比亚迪',cat:'自主',sales:177522,yoy:-36.19},
-  {name:'奇瑞',cat:'自主',sales:135552,yoy:3.41},
-  {name:'MG',cat:'自主',sales:67212,yoy:79.41},
-  {name:'哈弗',cat:'自主',sales:50513,yoy:4.03},
-  {name:'长安',cat:'自主',sales:48026,yoy:-69.25},
-  {name:'捷途',cat:'自主',sales:42744,yoy:-26.51},
-  {name:'问界',cat:'自主',sales:40005,yoy:143.81},
-  {name:'银河',cat:'自主',sales:39225,yoy:-18.87},
-  {name:'小米',cat:'自主',sales:39002,yoy:70.34},
-  {name:'五菱（银标）',cat:'自主',sales:34988,yoy:153.48},
-  {name:'红旗',cat:'自主',sales:34581,yoy:-20.24},
-  {name:'零跑',cat:'自主',sales:32059,yoy:27.37},
-  {name:'传祺',cat:'自主',sales:27684,yoy:51.47},
-  {name:'理想',cat:'自主',sales:27668,yoy:-7.55},
-  {name:'领克',cat:'自主',sales:27086,yoy:-6.23},
-  {name:'极氪',cat:'自主',sales:23852,yoy:99.73},
-  {name:'蔚来',cat:'自主',sales:22396,yoy:181.68},
-  {name:'方程豹',cat:'自主',sales:21581,yoy:247.02},
-  {name:'埃安',cat:'自主',sales:21182,yoy:205.97},
-  {name:'小鹏',cat:'自主',sales:20011,yoy:-34.07},
-  {name:'东风风神',cat:'自主',sales:15484,yoy:156.95},
-  {name:'宝骏',cat:'自主',sales:15109,yoy:0.55},
-  {name:'北京',cat:'自主',sales:15049,yoy:155.33},
-  {name:'坦克',cat:'自主',sales:14505,yoy:12.92},
-  {name:'沃尔沃',cat:'自主',sales:13115,yoy:0.14},
-  {name:'岚图',cat:'自主',sales:10515,yoy:31.29},
-  {name:'启源',cat:'自主',sales:9162,yoy:-15.41},
-  {name:'深蓝',cat:'自主',sales:8833,yoy:-56.29},
-  {name:'WEY',cat:'自主',sales:7873,yoy:57.24},
-  {name:'枫叶',cat:'自主',sales:6975,yoy:234.05},
-  {name:'奔腾',cat:'自主',sales:6529,yoy:-51.02},
-  {name:'腾势',cat:'自主',sales:6002,yoy:-48.79},
-  {name:'荣威',cat:'自主',sales:5906,yoy:-54.09},
-  {name:'五菱',cat:'自主',sales:5808,yoy:-81.25},
-  {name:'东风风行',cat:'自主',sales:5561,yoy:7.63},
-  {name:'江淮',cat:'自主',sales:5512,yoy:-47.32},
-  {name:'星途',cat:'自主',sales:5275,yoy:-13.58},
-  {name:'极狐',cat:'自主',sales:5107,yoy:-15.12},
-  {name:'智己',cat:'自主',sales:4647,yoy:65.96},
-  {name:'智界',cat:'自主',sales:4506,yoy:-65.34},
-  {name:'尚界',cat:'自主',sales:4240,yoy:0},
-  {name:'纳米',cat:'自主',sales:4024,yoy:185.80},
-  {name:'BAW',cat:'自主',sales:3453,yoy:21.67},
-  {name:'iCAR',cat:'自主',sales:3419,yoy:-57.12},
-  {name:'享界',cat:'自主',sales:3043,yoy:187.62},
-  {name:'萤火虫',cat:'自主',sales:2807,yoy:0},
-  {name:'蓝电',cat:'自主',sales:2621,yoy:124.59},
-  {name:'eπ',cat:'自主',sales:2486,yoy:145.90},
-  {name:'凯翼',cat:'自主',sales:2473,yoy:-40.00},
-  // 合资品牌 TOP29
-  {name:'大众',cat:'合资',sales:140077,yoy:-10.08},
-  {name:'丰田',cat:'合资',sales:109647,yoy:3.47},
-  {name:'特斯拉',cat:'合资',sales:69129,yoy:9.32},
-  {name:'奥迪',cat:'合资',sales:47800,yoy:17.79},
-  {name:'日产',cat:'合资',sales:46535,yoy:-3.03},
-  {name:'宝马',cat:'合资',sales:43494,yoy:-0.03},
-  {name:'别克',cat:'合资',sales:33709,yoy:35.82},
-  {name:'奔驰',cat:'合资',sales:27801,yoy:-32.12},
-  {name:'福特',cat:'合资',sales:18130,yoy:23.64},
-  {name:'本田',cat:'合资',sales:17120,yoy:-51.22},
-  {name:'起亚',cat:'合资',sales:16201,yoy:3.20},
-  {name:'现代',cat:'合资',sales:15980,yoy:-4.94},
-  {name:'捷达',cat:'合资',sales:9001,yoy:11.00},
-  {name:'凯迪拉克',cat:'合资',sales:8682,yoy:6.36},
-  {name:'马自达',cat:'合资',sales:8001,yoy:21.15},
-  {name:'林肯',cat:'合资',sales:6487,yoy:24.25},
-  {name:'MINI',cat:'合资',sales:6202,yoy:0},
-  {name:'smart',cat:'合资',sales:3768,yoy:53.17},
-  {name:'极星',cat:'合资',sales:2758,yoy:15.88},
-  {name:'铂智',cat:'合资',sales:2236,yoy:5943.24},
-  {name:'标致',cat:'合资',sales:2053,yoy:51.96},
-  {name:'雪铁龙',cat:'合资',sales:1416,yoy:-41.92},
-  {name:'雪佛兰',cat:'合资',sales:1112,yoy:56.18},
-  {name:'路虎',cat:'合资',sales:618,yoy:35.23}
-];
-const allBrands = brandData.sort((a,b) => b.sales - a.sales);
+// ============ Brand Ranking: 品牌销量排行榜（自主+合资，多月份） ============
+const brandDataByMonth = {
+  '1月': [
+    {name:'吉利',cat:'自主',sales:177922,yoy:10.85},{name:'比亚迪',cat:'自主',sales:177522,yoy:-36.19},
+    {name:'奇瑞',cat:'自主',sales:135552,yoy:3.41},{name:'MG',cat:'自主',sales:67212,yoy:79.41},
+    {name:'哈弗',cat:'自主',sales:50513,yoy:4.03},{name:'长安',cat:'自主',sales:48026,yoy:-69.25},
+    {name:'捷途',cat:'自主',sales:42744,yoy:-26.51},{name:'问界',cat:'自主',sales:40005,yoy:143.81},
+    {name:'银河',cat:'自主',sales:39225,yoy:-18.87},{name:'小米',cat:'自主',sales:39002,yoy:70.34},
+    {name:'五菱（银标）',cat:'自主',sales:34988,yoy:153.48},{name:'红旗',cat:'自主',sales:34581,yoy:-20.24},
+    {name:'零跑',cat:'自主',sales:32059,yoy:27.37},{name:'传祺',cat:'自主',sales:27684,yoy:51.47},
+    {name:'理想',cat:'自主',sales:27668,yoy:-7.55},{name:'领克',cat:'自主',sales:27086,yoy:-6.23},
+    {name:'极氪',cat:'自主',sales:23852,yoy:99.73},{name:'蔚来',cat:'自主',sales:22396,yoy:181.68},
+    {name:'方程豹',cat:'自主',sales:21581,yoy:247.02},{name:'埃安',cat:'自主',sales:21182,yoy:205.97},
+    {name:'小鹏',cat:'自主',sales:20011,yoy:-34.07},{name:'东风风神',cat:'自主',sales:15484,yoy:156.95},
+    {name:'宝骏',cat:'自主',sales:15109,yoy:0.55},{name:'北京',cat:'自主',sales:15049,yoy:155.33},
+    {name:'坦克',cat:'自主',sales:14505,yoy:12.92},{name:'沃尔沃',cat:'自主',sales:13115,yoy:0.14},
+    {name:'岚图',cat:'自主',sales:10515,yoy:31.29},{name:'启源',cat:'自主',sales:9162,yoy:-15.41},
+    {name:'深蓝',cat:'自主',sales:8833,yoy:-56.29},{name:'WEY',cat:'自主',sales:7873,yoy:57.24},
+    {name:'枫叶',cat:'自主',sales:6975,yoy:234.05},{name:'奔腾',cat:'自主',sales:6529,yoy:-51.02},
+    {name:'腾势',cat:'自主',sales:6002,yoy:-48.79},{name:'荣威',cat:'自主',sales:5906,yoy:-54.09},
+    {name:'五菱',cat:'自主',sales:5808,yoy:-81.25},{name:'东风风行',cat:'自主',sales:5561,yoy:7.63},
+    {name:'江淮',cat:'自主',sales:5512,yoy:-47.32},{name:'星途',cat:'自主',sales:5275,yoy:-13.58},
+    {name:'极狐',cat:'自主',sales:5107,yoy:-15.12},{name:'智己',cat:'自主',sales:4647,yoy:65.96},
+    {name:'智界',cat:'自主',sales:4506,yoy:-65.34},{name:'尚界',cat:'自主',sales:4240,yoy:0},
+    {name:'纳米',cat:'自主',sales:4024,yoy:185.80},{name:'BAW',cat:'自主',sales:3453,yoy:21.67},
+    {name:'iCAR',cat:'自主',sales:3419,yoy:-57.12},{name:'享界',cat:'自主',sales:3043,yoy:187.62},
+    {name:'萤火虫',cat:'自主',sales:2807,yoy:0},{name:'蓝电',cat:'自主',sales:2621,yoy:124.59},
+    {name:'eπ',cat:'自主',sales:2486,yoy:145.90},{name:'凯翼',cat:'自主',sales:2473,yoy:-40.00},
+    {name:'大众',cat:'合资',sales:140077,yoy:-10.08},{name:'丰田',cat:'合资',sales:109647,yoy:3.47},
+    {name:'特斯拉',cat:'合资',sales:69129,yoy:9.32},{name:'奥迪',cat:'合资',sales:47800,yoy:17.79},
+    {name:'日产',cat:'合资',sales:46535,yoy:-3.03},{name:'宝马',cat:'合资',sales:43494,yoy:-0.03},
+    {name:'别克',cat:'合资',sales:33709,yoy:35.82},{name:'奔驰',cat:'合资',sales:27801,yoy:-32.12},
+    {name:'福特',cat:'合资',sales:18130,yoy:23.64},{name:'本田',cat:'合资',sales:17120,yoy:-51.22},
+    {name:'起亚',cat:'合资',sales:16201,yoy:3.20},{name:'现代',cat:'合资',sales:15980,yoy:-4.94},
+    {name:'捷达',cat:'合资',sales:9001,yoy:11.00},{name:'凯迪拉克',cat:'合资',sales:8682,yoy:6.36},
+    {name:'马自达',cat:'合资',sales:8001,yoy:21.15},{name:'林肯',cat:'合资',sales:6487,yoy:24.25},
+    {name:'MINI',cat:'合资',sales:6202,yoy:0},{name:'smart',cat:'合资',sales:3768,yoy:53.17},
+    {name:'极星',cat:'合资',sales:2758,yoy:15.88},{name:'铂智',cat:'合资',sales:2236,yoy:5943.24},
+    {name:'标致',cat:'合资',sales:2053,yoy:51.96},{name:'雪铁龙',cat:'合资',sales:1416,yoy:-41.92},
+    {name:'雪佛兰',cat:'合资',sales:1112,yoy:56.18},{name:'路虎',cat:'合资',sales:618,yoy:35.23}
+  ],
+  '2月': [
+    {name:'比亚迪',cat:'自主',sales:164989,yoy:-45.85},{name:'吉利',cat:'自主',sales:121064,yoy:-4.40},
+    {name:'奇瑞',cat:'自主',sales:108406,yoy:1.97},{name:'长安',cat:'自主',sales:72266,yoy:-2.32},
+    {name:'MG',cat:'自主',sales:55833,yoy:56.68},{name:'哈弗',cat:'自主',sales:43660,yoy:0.83},
+    {name:'银河',cat:'自主',sales:33670,yoy:-0.77},{name:'五菱（银标）',cat:'自主',sales:28275,yoy:54.66},
+    {name:'零跑',cat:'自主',sales:28067,yoy:10.99},{name:'捷途',cat:'自主',sales:27607,yoy:-34.67},
+    {name:'理想',cat:'自主',sales:26421,yoy:0.60},{name:'领克',cat:'自主',sales:25968,yoy:55.61},
+    {name:'极氪',cat:'自主',sales:23867,yoy:70.00},{name:'传祺',cat:'自主',sales:23773,yoy:28.86},
+    {name:'小米',cat:'自主',sales:20414,yoy:-13.97},{name:'红旗',cat:'自主',sales:17820,yoy:-35.34},
+    {name:'方程豹',cat:'自主',sales:17036,yoy:244.72},{name:'蔚来',cat:'自主',sales:16476,yoy:80.20},
+    {name:'小鹏',cat:'自主',sales:15256,yoy:-49.90},{name:'宝骏',cat:'自主',sales:15160,yoy:1.73},
+    {name:'北京',cat:'自主',sales:11394,yoy:145.77},{name:'埃安',cat:'自主',sales:11011,yoy:-19.70},
+    {name:'岚图',cat:'自主',sales:10770,yoy:34.41},{name:'启源',cat:'自主',sales:10609,yoy:75.70},
+    {name:'坦克',cat:'自主',sales:10036,yoy:-14.67},{name:'问界',cat:'自主',sales:10001,yoy:-33.43},
+    {name:'凯翼',cat:'自主',sales:9606,yoy:281.34},{name:'五菱',cat:'自主',sales:9503,yoy:-79.19},
+    {name:'沃尔沃',cat:'自主',sales:8753,yoy:-29.58},{name:'东风风神',cat:'自主',sales:6458,yoy:20.04},
+    {name:'WEY',cat:'自主',sales:5615,yoy:54.13},{name:'腾势',cat:'自主',sales:5501,yoy:-35.38},
+    {name:'深蓝',cat:'自主',sales:5471,yoy:-42.56},{name:'iCAR',cat:'自主',sales:5199,yoy:-10.45},
+    {name:'东风风行',cat:'自主',sales:5161,yoy:32.37},{name:'极狐',cat:'自主',sales:4758,yoy:-6.50},
+    {name:'福田',cat:'自主',sales:4680,yoy:1138.10},{name:'享界',cat:'自主',sales:4541,yoy:379.01},
+    {name:'荣威',cat:'自主',sales:4306,yoy:-55.60},{name:'奔腾',cat:'自主',sales:4268,yoy:-55.14},
+    {name:'纳米',cat:'自主',sales:4200,yoy:39.86},{name:'江淮',cat:'自主',sales:4151,yoy:-59.20},
+    {name:'星途',cat:'自主',sales:4016,yoy:-40.11},{name:'枫叶',cat:'自主',sales:3744,yoy:9.89},
+    {name:'阿维塔',cat:'自主',sales:3644,yoy:-19.93},{name:'萤火虫',cat:'自主',sales:2657,yoy:0},
+    {name:'迈克萨斯',cat:'自主',sales:2447,yoy:-22.66},{name:'智己',cat:'自主',sales:2017,yoy:77.71},
+    {name:'BAW',cat:'自主',sales:1984,yoy:-11.19},{name:'乐道',cat:'自主',sales:1664,yoy:-58.90},
+    {name:'大众',cat:'合资',sales:82795,yoy:-30.09},{name:'丰田',cat:'合资',sales:75821,yoy:-5.23},
+    {name:'特斯拉',cat:'合资',sales:58599,yoy:90.95},{name:'宝马',cat:'合资',sales:30415,yoy:-14.50},
+    {name:'本田',cat:'合资',sales:26586,yoy:-43.00},{name:'奥迪',cat:'合资',sales:23332,yoy:-28.43},
+    {name:'别克',cat:'合资',sales:21850,yoy:-7.44},{name:'奔驰',cat:'合资',sales:18399,yoy:-48.85},
+    {name:'福特',cat:'合资',sales:16280,yoy:75.07},{name:'起亚',cat:'合资',sales:15903,yoy:-11.17},
+    {name:'日产',cat:'合资',sales:15577,yoy:-48.09},{name:'现代',cat:'合资',sales:12021,yoy:13.57},
+    {name:'捷达',cat:'合资',sales:5501,yoy:-24.65},{name:'凯迪拉克',cat:'合资',sales:5010,yoy:-22.93},
+    {name:'smart',cat:'合资',sales:4849,yoy:66.12},{name:'MINI',cat:'合资',sales:4664,yoy:0},
+    {name:'林肯',cat:'合资',sales:4562,yoy:4.35},{name:'马自达',cat:'合资',sales:4535,yoy:19.34},
+    {name:'极星',cat:'合资',sales:3554,yoy:136.30},{name:'铂智',cat:'合资',sales:2654,yoy:2168.38},
+    {name:'标致',cat:'合资',sales:943,yoy:-12.20},{name:'雪佛兰',cat:'合资',sales:922,yoy:-35.52},
+    {name:'雪铁龙',cat:'合资',sales:896,yoy:-59.35},{name:'路虎',cat:'合资',sales:784,yoy:-5.43},
+    {name:'斯柯达',cat:'合资',sales:147,yoy:-82.91},{name:'烨',cat:'合资',sales:119,yoy:-81.69},
+    {name:'英菲尼迪',cat:'合资',sales:40,yoy:-46.67},{name:'捷豹',cat:'合资',sales:2,yoy:-99.71},
+    {name:'Levc',cat:'合资',sales:1,yoy:-98.57}
+  ],
+  '1-2月': [
+    {name:'比亚迪',cat:'自主',sales:342511,yoy:-45.85},{name:'吉利',cat:'自主',sales:298986,yoy:-4.40},
+    {name:'奇瑞',cat:'自主',sales:243958,yoy:1.97},{name:'MG',cat:'自主',sales:123045,yoy:56.68},
+    {name:'长安',cat:'自主',sales:120292,yoy:-2.32},{name:'哈弗',cat:'自主',sales:94173,yoy:0.83},
+    {name:'银河',cat:'自主',sales:72895,yoy:-0.77},{name:'捷途',cat:'自主',sales:70351,yoy:-34.67},
+    {name:'五菱（银标）',cat:'自主',sales:63263,yoy:54.66},{name:'零跑',cat:'自主',sales:60126,yoy:10.99},
+    {name:'小米',cat:'自主',sales:59416,yoy:-13.97},{name:'理想',cat:'自主',sales:54089,yoy:0.60},
+    {name:'领克',cat:'自主',sales:53054,yoy:55.61},{name:'红旗',cat:'自主',sales:52401,yoy:-35.34},
+    {name:'传祺',cat:'自主',sales:51457,yoy:28.86},{name:'问界',cat:'自主',sales:50006,yoy:-33.43},
+    {name:'极氪',cat:'自主',sales:47719,yoy:70.00},{name:'蔚来',cat:'自主',sales:38872,yoy:80.20},
+    {name:'方程豹',cat:'自主',sales:38617,yoy:244.72},{name:'小鹏',cat:'自主',sales:35267,yoy:-49.90},
+    {name:'埃安',cat:'自主',sales:32193,yoy:-19.70},{name:'宝骏',cat:'自主',sales:30269,yoy:1.73},
+    {name:'北京',cat:'自主',sales:26443,yoy:145.77},{name:'坦克',cat:'自主',sales:24541,yoy:-14.67},
+    {name:'东风风神',cat:'自主',sales:21942,yoy:20.04},{name:'沃尔沃',cat:'自主',sales:21868,yoy:-29.58},
+    {name:'岚图',cat:'自主',sales:21285,yoy:34.41},{name:'启源',cat:'自主',sales:19771,yoy:75.70},
+    {name:'五菱',cat:'自主',sales:15311,yoy:-79.19},{name:'深蓝',cat:'自主',sales:14304,yoy:-42.56},
+    {name:'WEY',cat:'自主',sales:13488,yoy:54.13},{name:'凯翼',cat:'自主',sales:12079,yoy:281.34},
+    {name:'腾势',cat:'自主',sales:11503,yoy:-35.38},{name:'枫叶',cat:'自主',sales:10719,yoy:9.89},
+    {name:'奔腾',cat:'自主',sales:10797,yoy:-55.14},{name:'东风风行',cat:'自主',sales:10722,yoy:32.37},
+    {name:'荣威',cat:'自主',sales:10212,yoy:-55.60},{name:'极狐',cat:'自主',sales:9865,yoy:-6.50},
+    {name:'江淮',cat:'自主',sales:9663,yoy:-59.20},{name:'星途',cat:'自主',sales:9291,yoy:-40.11},
+    {name:'iCAR',cat:'自主',sales:8618,yoy:-10.45},{name:'纳米',cat:'自主',sales:8224,yoy:39.86},
+    {name:'享界',cat:'自主',sales:7584,yoy:379.01},{name:'智己',cat:'自主',sales:6664,yoy:77.71},
+    {name:'阿维塔',cat:'自主',sales:5982,yoy:-19.93},{name:'萤火虫',cat:'自主',sales:5464,yoy:0},
+    {name:'福田',cat:'自主',sales:5184,yoy:1138.10},{name:'BAW',cat:'自主',sales:5437,yoy:-11.19},
+    {name:'迈克萨斯',cat:'自主',sales:4368,yoy:-22.66},{name:'乐道',cat:'自主',sales:3643,yoy:-58.90},
+    {name:'大众',cat:'合资',sales:222872,yoy:-30.09},{name:'丰田',cat:'合资',sales:185468,yoy:-5.23},
+    {name:'特斯拉',cat:'合资',sales:127728,yoy:90.95},{name:'宝马',cat:'合资',sales:73909,yoy:-14.50},
+    {name:'奥迪',cat:'合资',sales:71132,yoy:-28.43},{name:'日产',cat:'合资',sales:62112,yoy:-48.09},
+    {name:'别克',cat:'合资',sales:55559,yoy:-7.44},{name:'奔驰',cat:'合资',sales:46200,yoy:-48.85},
+    {name:'本田',cat:'合资',sales:43706,yoy:-43.00},{name:'福特',cat:'合资',sales:34410,yoy:75.07},
+    {name:'起亚',cat:'合资',sales:32104,yoy:-11.17},{name:'现代',cat:'合资',sales:28001,yoy:13.57},
+    {name:'捷达',cat:'合资',sales:14502,yoy:-24.65},{name:'凯迪拉克',cat:'合资',sales:13692,yoy:-22.93},
+    {name:'马自达',cat:'合资',sales:12536,yoy:19.34},{name:'林肯',cat:'合资',sales:11049,yoy:4.35},
+    {name:'MINI',cat:'合资',sales:10866,yoy:0},{name:'smart',cat:'合资',sales:8617,yoy:66.12},
+    {name:'极星',cat:'合资',sales:6312,yoy:136.30},{name:'铂智',cat:'合资',sales:4890,yoy:2168.38},
+    {name:'标致',cat:'合资',sales:2996,yoy:-12.20},{name:'雪铁龙',cat:'合资',sales:2312,yoy:-59.35},
+    {name:'雪佛兰',cat:'合资',sales:2034,yoy:-35.52},{name:'路虎',cat:'合资',sales:1402,yoy:-5.43},
+    {name:'斯柯达',cat:'合资',sales:172,yoy:-82.91},{name:'烨',cat:'合资',sales:124,yoy:-81.69},
+    {name:'英菲尼迪',cat:'合资',sales:120,yoy:-46.67},{name:'捷豹',cat:'合资',sales:4,yoy:-99.71},
+    {name:'Levc',cat:'合资',sales:2,yoy:-98.57}
+  ]
+};
 const cBrand = makeChart('chartBrandRank');
 function filterBrandByCat(cat) {
+  const month = document.getElementById('brandMonthSelect').value;
+  const data = brandDataByMonth[month].sort((a,b) => b.sales - a.sales);
   let filtered;
   if (cat === 'all') {
-    filtered = allBrands.slice(0, 15);
+    filtered = data.slice(0, 15);
   } else {
-    filtered = allBrands.filter(d => d.cat === cat);
+    filtered = data.filter(d => d.cat === cat);
   }
   const names = filtered.map(d => d.name).reverse();
   const sales = filtered.map(d => d.sales).reverse();
